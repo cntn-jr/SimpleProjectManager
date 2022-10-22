@@ -13,9 +13,7 @@ export const Menubox = memo((props: Props) => {
     const location = useLocation();
 
     const moveMainPage = (menuName: string) => {
-        console.log(history);
         history.push(`/${menuName}`);
-        console.log(history);
     };
 
     const { icon, menuName } = props;

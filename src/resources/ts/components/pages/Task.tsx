@@ -1,5 +1,6 @@
 import { memo } from "react";
+import { WarningTask } from "../organisms/home/WarningTask";
 
 export const Task = memo(() => {
-    return <h1>Task</h1>;
+    return <WarningTask />;
 });
