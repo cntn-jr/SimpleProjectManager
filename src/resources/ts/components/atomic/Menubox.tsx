@@ -23,20 +23,22 @@ export const Menubox = memo((props: Props) => {
             onClick={() => moveMainPage(menuName)}
             h="100px"
             _hover={{ opacity: 0.7 }}
+            display="flex"
+            alignItems="center"
         >
             {matchPath(location.pathname, `/${menuName}*`) ||
             (matchPath(location.pathname, { path: "/", exact: true }) &&
                 menuName == "home") ? (
                 <HStack color="sub.1">
                     {icon}
-                    <Text fontSize="2xl" textTransform="uppercase">
+                    <Text fontSize="lg" textTransform="uppercase">
                         {menuName}
                     </Text>
                 </HStack>
             ) : (
                 <HStack>
                     {icon}
-                    <Text fontSize="2xl" textTransform="uppercase">
+                    <Text fontSize="lg" textTransform="uppercase">
                         {menuName}
                     </Text>
                 </HStack>

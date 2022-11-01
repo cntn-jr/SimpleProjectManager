@@ -5,7 +5,12 @@ const theme = extendTheme({
     global: {
       body: {
         backgroundColor: "#03045E",
-        color: "#DEDEDE"
+        color: "#DEDEDE",
+        margin: {
+          lg: '5%',
+          base: 0,
+        },
+        hieght: "100%",
       }
     }
   },

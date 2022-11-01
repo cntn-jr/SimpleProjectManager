@@ -9,6 +9,7 @@ export const DeleteButton = (props: Props) => {
     const { onClick } = props;
     return (
         <BaseButton
+            size="md"
             backColor="high"
             border="high"
             leftIcon={iconManager.delete}

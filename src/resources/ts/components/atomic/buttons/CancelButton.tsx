@@ -7,7 +7,13 @@ type Props = {
 export const CancelButton = (props: Props) => {
     const { onClick } = props;
     return (
-        <BaseButton backColor="main.1" border="main.1" leftIcon={null} onClick={onClick}>
+        <BaseButton
+            size="sm"
+            backColor="main.1"
+            border="main.1"
+            leftIcon={null}
+            onClick={onClick}
+        >
             Cancel
         </BaseButton>
     );

@@ -5,9 +5,19 @@ import { Menubox } from "../atomic/Menubox";
 
 export const Menubar = memo(() => {
     return (
-        <VStack w="253px" align="center" spacing="0">
-            <Box h="100px">
-                <Text fontSize="2xl" as="b">
+        <VStack spacing="0">
+            <Box h="100px" display="flex" alignItems="center">
+                <Text
+                    fontSize="lg"
+                    as="b"
+                    color={{
+                        sm: "green",
+                        md: "blue",
+                        lg: "yellow",
+                        xl: "orange",
+                        '2xl': "red"
+                    }}
+                >
                     Project Name
                 </Text>
             </Box>

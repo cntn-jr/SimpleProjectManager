@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 
 type Props = {
     children: ReactNode;
+    size: string;
     backColor: string;
     border: string;
     leftIcon: any;
@@ -10,13 +11,13 @@ type Props = {
 };
 
 export const BaseButton = (props: Props) => {
-    const { children, backColor, border, leftIcon, onClick } = props;
+    const { children, size, backColor, border, leftIcon, onClick } = props;
     return (
         <Button
             color="font.1"
             background={backColor}
             onClick={onClick}
-            size="md"
+            size={size}
             variant="outline"
             border={border}
             leftIcon={leftIcon}

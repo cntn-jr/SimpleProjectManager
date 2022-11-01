@@ -27,4 +27,11 @@ class Task extends Model
             ->get();
         return $tasks;
     }
+
+    function getTask($user_id){
+        $tasks = $this
+            ->where('user_id', $user_id)
+            ->get();
+        return $tasks;
+    }
 }

@@ -4,12 +4,13 @@ import { BaseButton } from "./BaseButton";
 type Props = {
     leftIcon: ReactNode;
     children: ReactNode;
+    size: string;
     onClick: () => void;
 };
 
 export const PrimaryButton = (props: Props) => {
-    const { leftIcon, children, onClick } = props;
+    const { leftIcon, children, size, onClick } = props;
     return (
-        <BaseButton backColor="sub.1" border="main.1" leftIcon={leftIcon} onClick={onClick}>{children}</BaseButton>
+        <BaseButton size={size} backColor="sub.1" border="main.1" leftIcon={leftIcon} onClick={onClick}>{children}</BaseButton>
     );
 };
