@@ -31,6 +31,7 @@ class Task extends Model
     function getTask($user_id){
         $tasks = $this
             ->where('user_id', $user_id)
+            ->where('is_finished', 0)
             ->get();
         return $tasks;
     }

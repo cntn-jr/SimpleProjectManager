@@ -2,15 +2,18 @@ import { Select, Stack } from "@chakra-ui/react";
 import { memo, ReactNode } from "react";
 import { iconManager } from "../../../icon";
 import { PrimaryButton } from "../../atomic/buttons/PrimaryButton";
-import { SimpleSelectBox } from "../../atomic/SimpleSelectBox";
+import { OrderSelectBox } from "../../atomic/OrderSelectBox";
 import { OrderRadioGroup } from "../../atomic/task/OrderRadioGroup";
 
 type Props = {
     onClickRadio: () => void;
+    sortDue: () => void;
+    sortTitle: () => void;
+    sortPriority: () => void;
 };
 
 export const TaskHeader = memo((props: Props) => {
-    const { onClickRadio } = props;
+    const { onClickRadio, sortDue, sortTitle, sortPriority } = props;
     return (
         <Stack
             spacing={5}
@@ -38,13 +41,8 @@ export const TaskHeader = memo((props: Props) => {
             </Stack>
 
             <Stack textAlign="right" direction="row">
-                <OrderRadioGroup onClickRadio={onClickRadio} />
-                <SimpleSelectBox
-                    options={["Tasks", "Due", "Priority", "Finished"]}
-                    size="sm"
-                    w="300px"
-                    bgColor="main.1"
-                />
+                <OrderRadioGroup onClickRadio={onClickRadio}/>
+                <OrderSelectBox sortDue={sortDue} sortTitle={sortTitle} sortPriority={sortPriority} />
             </Stack>
         </Stack>
     );
