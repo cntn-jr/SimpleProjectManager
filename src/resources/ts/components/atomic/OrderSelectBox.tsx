@@ -11,19 +11,25 @@ type Props = {
 export const OrderSelectBox = memo((props: Props) => {
     const { sortDue, sortTitle, sortPriority } = props;
     const order: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
-        if(e.target.value == 'Title'){
+        if (e.target.value == "Title") {
             sortTitle();
-        }else if(e.target.value == 'Priority'){
+        } else if (e.target.value == "Priority") {
             sortPriority();
-        }else{
+        } else {
             sortDue();
         }
-    }
+    };
     return (
-        <Select size="sm" w="200px" bgColor="main.1" onChange={ e=>order(e) }>
-            <option selected>Due</option>
-            <option>Title</option>
-            <option>Priority</option>
+        <Select
+            size="sm"
+            w="200px"
+            bgColor="main.1"
+            onChange={(e) => order(e)}
+            defaultValue="Due"
+        >
+            <option value="Due">Due</option>
+            <option value="Title">Title</option>
+            <option value="Priority">Priority</option>
         </Select>
     );
 });

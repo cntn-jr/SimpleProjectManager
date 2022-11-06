@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => 'api'], function () {
     Route::get('home', 'App\Http\Controllers\HomeController@index');
     Route::get('task', 'App\Http\Controllers\TaskController@index');
+    Route::post('task/store', 'App\Http\Controllers\TaskController@store');
 });

@@ -7,13 +7,22 @@ import { OrderRadioGroup } from "../../atomic/task/OrderRadioGroup";
 
 type Props = {
     onClickRadio: () => void;
+    onClickAdd: () => void;
     sortDue: () => void;
     sortTitle: () => void;
     sortPriority: () => void;
+    showAddBtn: boolean;
 };
 
 export const TaskHeader = memo((props: Props) => {
-    const { onClickRadio, sortDue, sortTitle, sortPriority } = props;
+    const {
+        onClickRadio,
+        onClickAdd,
+        sortDue,
+        sortTitle,
+        sortPriority,
+        showAddBtn,
+    } = props;
     return (
         <Stack
             spacing={5}
@@ -31,18 +40,28 @@ export const TaskHeader = memo((props: Props) => {
             overflowX="scroll"
         >
             <Stack w="80px">
-                <PrimaryButton
-                    size="sm"
-                    onClick={() => alert()}
-                    leftIcon={iconManager.add}
-                >
-                    Add
-                </PrimaryButton>
+                {showAddBtn ? (
+                    <PrimaryButton
+                        size="sm"
+                        onClick={onClickAdd}
+                        leftIcon={iconManager.add}
+                        isLoading={false}
+                        isDisabled={false}
+                    >
+                        Add
+                    </PrimaryButton>
+                ) : (
+                    <></>
+                )}
             </Stack>
 
             <Stack textAlign="right" direction="row">
-                <OrderRadioGroup onClickRadio={onClickRadio}/>
-                <OrderSelectBox sortDue={sortDue} sortTitle={sortTitle} sortPriority={sortPriority} />
+                <OrderRadioGroup onClickRadio={onClickRadio} />
+                <OrderSelectBox
+                    sortDue={sortDue}
+                    sortTitle={sortTitle}
+                    sortPriority={sortPriority}
+                />
             </Stack>
         </Stack>
     );

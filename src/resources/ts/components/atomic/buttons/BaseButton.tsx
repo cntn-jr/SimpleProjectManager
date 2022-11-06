@@ -8,10 +8,21 @@ type Props = {
     border: string;
     leftIcon: any;
     onClick: () => void;
+    isLoading: boolean;
+    isDisabled: boolean;
 };
 
 export const BaseButton = (props: Props) => {
-    const { children, size, backColor, border, leftIcon, onClick } = props;
+    const {
+        children,
+        size,
+        backColor,
+        border,
+        leftIcon,
+        onClick,
+        isLoading,
+        isDisabled,
+    } = props;
     return (
         <Button
             color="font.1"
@@ -21,6 +32,8 @@ export const BaseButton = (props: Props) => {
             variant="outline"
             border={border}
             leftIcon={leftIcon}
+            isLoading={isLoading}
+            isDisabled={isDisabled}
         >
             {children}
         </Button>
