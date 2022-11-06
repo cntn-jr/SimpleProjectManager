@@ -3,10 +3,11 @@ import { BaseButton } from "./BaseButton";
 
 type Props = {
     onClick: () => void;
+    isDisabled: boolean;
 };
 
 export const DeleteButton = (props: Props) => {
-    const { onClick } = props;
+    const { onClick, isDisabled } = props;
     return (
         <BaseButton
             size="md"
@@ -14,6 +15,8 @@ export const DeleteButton = (props: Props) => {
             border="high"
             leftIcon={iconManager.delete}
             onClick={onClick}
+            isLoading={false}
+            isDisabled={isDisabled}
         >
             Delete
         </BaseButton>
