@@ -23,6 +23,7 @@ class CreateTaskTable extends Migration
             $table->date('due');
             $table->boolean('is_finished');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

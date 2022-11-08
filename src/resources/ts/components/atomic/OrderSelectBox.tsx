@@ -1,15 +1,15 @@
 import { Select } from "@chakra-ui/react";
-import { ChangeEvent, memo } from "react";
-import { useTasks } from "../../hooks/useTasks";
+import { memo } from "react";
 
 type Props = {
     sortDue: () => void;
     sortTitle: () => void;
     sortPriority: () => void;
+    isDisabled: boolean;
 };
 
 export const OrderSelectBox = memo((props: Props) => {
-    const { sortDue, sortTitle, sortPriority } = props;
+    const { sortDue, sortTitle, sortPriority, isDisabled } = props;
     const order: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
         if (e.target.value == "Title") {
             sortTitle();
@@ -26,6 +26,7 @@ export const OrderSelectBox = memo((props: Props) => {
             bgColor="main.1"
             onChange={(e) => order(e)}
             defaultValue="Due"
+            isDisabled={isDisabled}
         >
             <option value="Due">Due</option>
             <option value="Title">Title</option>

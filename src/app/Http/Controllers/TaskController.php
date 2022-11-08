@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use Exception;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -14,7 +15,8 @@ class TaskController extends Controller
         return response()->json($tasks);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $new_task = new Task();
         $new_task->title = $request->title;
         $new_task->due = $request->due;
@@ -23,5 +25,32 @@ class TaskController extends Controller
         $new_task->is_finished = false;
         $new_task->user_id = 1;
         $new_task->save();
+    }
+
+    public function finish(Request $request)
+    {
+        $task_id_ary = $request->task_id_ary;
+        foreach ($task_id_ary as $task_id) {
+            try {
+                $task = Task::find($task_id);
+                $task->is_finished = 1;
+                $task->save();
+            } catch (Exception $err) {
+                return response()->json($err);
+            }
+        }
+    }
+
+    public function delete(Request $request)
+    {
+        $task_id_ary = $request->task_id_ary;
+        foreach ($task_id_ary as $task_id) {
+            try {
+                $task = Task::find($task_id);
+                $task->delete();
+            } catch (Exception $err) {
+                return response()->json($err);
+            }
+        }
     }
 }
