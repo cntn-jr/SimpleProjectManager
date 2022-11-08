@@ -5,10 +5,12 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Task extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = ['title', 'description', 'priority', 'due', 'user_id', 'is_finished'];
 
@@ -18,6 +20,7 @@ class Task extends Model
         $tasks = $this
             ->where('user_id', $user_id)
             ->where('is_finished', 0)
+            ->where('deleted_at', null)
             ->where(function($query){
                 $today = new Carbon('today');
                 $next_week = new Carbon('+1 week');
@@ -32,6 +35,7 @@ class Task extends Model
         $tasks = $this
             ->where('user_id', $user_id)
             ->where('is_finished', 0)
+            ->where('deleted_at', null)
             ->get();
         return $tasks;
     }

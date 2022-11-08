@@ -2,20 +2,22 @@ import { iconManager } from "../../../icon";
 import { BaseButton } from "./BaseButton";
 
 type Props = {
+    size: string;
     onClick: () => void;
     isDisabled: boolean;
+    isLoading: boolean;
 };
 
 export const DeleteButton = (props: Props) => {
-    const { onClick, isDisabled } = props;
+    const { size, onClick, isDisabled, isLoading } = props;
     return (
         <BaseButton
-            size="md"
+            size={size}
             backColor="high"
             border="high"
             leftIcon={iconManager.delete}
             onClick={onClick}
-            isLoading={false}
+            isLoading={isLoading}
             isDisabled={isDisabled}
         >
             Delete

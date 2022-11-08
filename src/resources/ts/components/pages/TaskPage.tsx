@@ -1,6 +1,9 @@
 import { Center, Spinner, useDisclosure } from "@chakra-ui/react";
 import { memo, useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import { useTasks } from "../../hooks/useTasks";
+import { isChangedTaskAtom } from "../../recoil/isChangedTaskAtom";
+import { loadingAtom } from "../../recoil/isLoadingAtom";
 import { Task } from "../../types/task";
 import { TasksTable } from "../atomic/TasksTable";
 import { TaskAdd } from "../organisms/task/TaskAdd";
@@ -9,12 +12,13 @@ import { TaskHeader } from "../organisms/task/TaskHeader";
 export const TaskPage = memo(() => {
     const { tasks, getTasks, setTasks, firstLoading } = useTasks();
     const [isDesc, setIsDesc] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [isChangedTask, setIsChangedTask] = useRecoilState(isChangedTaskAtom);
+    const [loading, setLoading] = useRecoilState(loadingAtom);
 
     useEffect(() => {
         getTasks();
-    }, []);
+    }, [isChangedTask]);
 
     const reverseTasks = () => {
         setLoading(true);
@@ -62,7 +66,7 @@ export const TaskPage = memo(() => {
 
     return (
         <>
-            {loading || firstLoading ? (
+            {firstLoading ? (
                 <Center>
                     <Spinner />
                 </Center>
@@ -79,7 +83,7 @@ export const TaskPage = memo(() => {
                     <TaskAdd isOpen={isOpen} onClose={onClose} />
                     <TasksTable
                         tasks={tasks}
-                        isCheckbox={true}
+                        isCheckbox={!isOpen}
                         mt={isOpen ? "320px" : "50px"}
                     />
                 </>

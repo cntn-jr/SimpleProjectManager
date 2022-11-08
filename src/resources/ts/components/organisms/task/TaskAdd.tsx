@@ -4,6 +4,8 @@ import moment from "moment";
 import { ChangeEvent, memo, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { iconManager } from "../../../icon";
+import { isChangedTaskAtom } from "../../../recoil/isChangedTaskAtom";
+import { loadingAtom } from "../../../recoil/isLoadingAtom";
 import { newTaskAtom } from "../../../recoil/newTaskAtom";
 import { CancelButton } from "../../atomic/buttons/CancelButton";
 import { PrimaryButton } from "../../atomic/buttons/PrimaryButton";
@@ -17,14 +19,15 @@ type Props = {
 export const TaskAdd = memo((props: Props) => {
     const { isOpen, onClose } = props;
     const [newTask, setNewTask] = useRecoilState(newTaskAtom);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useRecoilState(loadingAtom);
+    const [isChangedTask, setIsChangedTask] = useRecoilState(isChangedTaskAtom);
     const today = moment();
     const toast = useToast();
     useEffect(() => {
         setNewTask(["", today.format("YYYY-MM-DD").toString(), "middle", ""]);
     }, []);
     const createTask = () => {
-        setIsLoading(true);
+        setLoading(true);
         axios
             .post("/api/task/store", {
                 title: newTask[0],
@@ -35,7 +38,6 @@ export const TaskAdd = memo((props: Props) => {
             .then((res) => {
                 toast({
                     title: "Task created.",
-                    description: "We've created your task: for you.",
                     status: "success",
                     duration: 5000,
                     isClosable: true,
@@ -47,7 +49,8 @@ export const TaskAdd = memo((props: Props) => {
                 console.log(err);
             })
             .finally(() => {
-                setIsLoading(false);
+                setLoading(false);
+                setIsChangedTask(!isChangedTask);
             });
     };
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
@@ -103,14 +106,14 @@ export const TaskAdd = memo((props: Props) => {
                         onChangeDue={onChangeDue}
                         onChangePriority={onChangePriority}
                         onChangeDescription={onChangeDescription}
-                        isLoading={isLoading}
+                        isLoading={loading}
                     />
                     <Stack direction="row">
                         <PrimaryButton
                             leftIcon={iconManager.check}
                             size="md"
                             onClick={createTask}
-                            isLoading={isLoading}
+                            isLoading={loading}
                             isDisabled={
                                 newTask[0] == "" ||
                                 newTask[1] == "" ||
@@ -121,7 +124,7 @@ export const TaskAdd = memo((props: Props) => {
                         </PrimaryButton>
                         <CancelButton
                             onClick={onClose}
-                            isDisabled={isLoading}
+                            isDisabled={loading}
                         />
                     </Stack>
                 </Stack>

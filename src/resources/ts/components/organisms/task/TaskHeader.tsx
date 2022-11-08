@@ -1,6 +1,8 @@
 import { Select, Stack } from "@chakra-ui/react";
 import { memo, ReactNode } from "react";
+import { useRecoilState } from "recoil";
 import { iconManager } from "../../../icon";
+import { loadingAtom } from "../../../recoil/isLoadingAtom";
 import { PrimaryButton } from "../../atomic/buttons/PrimaryButton";
 import { OrderSelectBox } from "../../atomic/OrderSelectBox";
 import { OrderRadioGroup } from "../../atomic/task/OrderRadioGroup";
@@ -23,6 +25,7 @@ export const TaskHeader = memo((props: Props) => {
         sortPriority,
         showAddBtn,
     } = props;
+    const [loading] = useRecoilState(loadingAtom);
     return (
         <Stack
             spacing={5}
@@ -46,7 +49,7 @@ export const TaskHeader = memo((props: Props) => {
                         onClick={onClickAdd}
                         leftIcon={iconManager.add}
                         isLoading={false}
-                        isDisabled={false}
+                        isDisabled={loading}
                     >
                         Add
                     </PrimaryButton>
@@ -56,11 +59,15 @@ export const TaskHeader = memo((props: Props) => {
             </Stack>
 
             <Stack textAlign="right" direction="row">
-                <OrderRadioGroup onClickRadio={onClickRadio} />
+                <OrderRadioGroup
+                    onClickRadio={onClickRadio}
+                    isDisabled={loading}
+                />
                 <OrderSelectBox
                     sortDue={sortDue}
                     sortTitle={sortTitle}
                     sortPriority={sortPriority}
+                    isDisabled={loading}
                 />
             </Stack>
         </Stack>
