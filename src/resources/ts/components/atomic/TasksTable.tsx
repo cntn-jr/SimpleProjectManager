@@ -21,10 +21,12 @@ type Props = {
     tasks: Array<Task>;
     isCheckbox: boolean;
     mt: string;
+    hTable: string;
+    hBody: string;
 };
 
 export const TasksTable = memo((props: Props) => {
-    const { tasks, isCheckbox, mt } = props;
+    const { tasks, isCheckbox, mt, hTable, hBody } = props;
     const [editTasks, setEditTasks] = useRecoilState(editTasksAtom);
     const [loading, setLoading] = useRecoilState(loadingAtom);
     const onChangeCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +59,7 @@ export const TasksTable = memo((props: Props) => {
                     xl: "1000px",
                     "2xl": "1200px",
                 }}
-                h="480px"
+                h={hTable}
                 mt={mt}
                 position="fixed"
             >
@@ -116,7 +118,6 @@ export const TasksTable = memo((props: Props) => {
                         </Tr>
                     </Thead>
                     <Tbody
-                        height="440px"
                         overflowY="scroll"
                         color="font.100"
                         borderColor="font.100"
@@ -129,6 +130,7 @@ export const TasksTable = memo((props: Props) => {
                             xl: "1000px",
                             "2xl": "1200px",
                         }}
+                        h={hBody}
                     >
                         {tasks.map((task) => (
                             <Tr
@@ -205,6 +207,7 @@ export const TasksTable = memo((props: Props) => {
                                     <Badge
                                         bgColor={task.priority}
                                         color="font.100"
+                                        w="60px"
                                     >
                                         {task.priority}
                                     </Badge>
