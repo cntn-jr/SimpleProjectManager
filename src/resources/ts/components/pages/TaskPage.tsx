@@ -85,6 +85,8 @@ export const TaskPage = memo(() => {
                         tasks={tasks}
                         isCheckbox={!isOpen}
                         mt={isOpen ? "320px" : "50px"}
+                        hTable={isOpen ? "315px" : "480px"}
+                        hBody={isOpen ? "275px" : "440px"}
                     />
                 </>
             )}

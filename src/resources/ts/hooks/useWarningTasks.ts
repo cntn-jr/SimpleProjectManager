@@ -4,12 +4,19 @@ import { Task } from "../types/task";
 
 export const useWarningTasks = () => {
     const [tasks, setTasks] = useState<Array<Task>>([]);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const getTasks = useCallback(() => {
-        axios.get<Array<Task>>("/api/home").then((res) => {
-            setTasks(res.data);
-        });
+        setLoading(true);
+        axios
+            .get<Array<Task>>("/api/home")
+            .then((res) => {
+                setTasks(res.data);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     }, []);
 
-    return { getTasks, tasks };
+    return { getTasks, tasks, loading };
 };
