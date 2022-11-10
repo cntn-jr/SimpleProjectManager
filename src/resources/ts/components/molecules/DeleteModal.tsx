@@ -7,8 +7,9 @@ import {
     ModalOverlay,
     Stack,
 } from "@chakra-ui/react";
+import { memo } from "react";
 import { useRecoilState } from "recoil";
-import { loadingAtom } from "../../recoil/isLoadingAtom";
+import { loadingAtom } from "../../recoil/loadingAtom";
 import { CancelButton } from "../atomic/buttons/CancelButton";
 import { DeleteButton } from "../atomic/buttons/DeleteButton";
 
@@ -18,7 +19,7 @@ type Props = {
     onClose: () => void;
 };
 
-export const DeleteModal = (props: Props) => {
+export const DeleteModal = memo((props: Props) => {
     const { onClick, isOpen, onClose } = props;
     const [loading] = useRecoilState(loadingAtom);
     return (
@@ -53,4 +54,4 @@ export const DeleteModal = (props: Props) => {
             </Modal>
         </>
     );
-};
+});

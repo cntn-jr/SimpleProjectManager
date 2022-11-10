@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { BaseButton } from "./BaseButton";
 
 type Props = {
@@ -6,7 +7,7 @@ type Props = {
     isDisabled: boolean;
 };
 
-export const CancelButton = (props: Props) => {
+export const CancelButton = memo((props: Props) => {
     const { onClick, size = "md", isDisabled } = props;
     return (
         <BaseButton
@@ -21,4 +22,4 @@ export const CancelButton = (props: Props) => {
             Cancel
         </BaseButton>
     );
-};
+});

@@ -2,7 +2,7 @@ import { Stack } from "@chakra-ui/react";
 import { memo } from "react";
 import { useRecoilState } from "recoil";
 import { iconManager } from "../../../icon";
-import { loadingAtom } from "../../../recoil/isLoadingAtom";
+import { loadingAtom } from "../../../recoil/loadingAtom";
 import { PrimaryButton } from "../../atomic/buttons/PrimaryButton";
 import { OrderSelectBox } from "../../atomic/task/OrderSelectBox";
 import { OrderRadioGroup } from "../../atomic/task/OrderRadioGroup";

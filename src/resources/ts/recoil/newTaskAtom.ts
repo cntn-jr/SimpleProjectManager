@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 
 export const newTaskAtom = atom({
-    key: "newTaskTitleTitleAtom",
+    key: "newTaskAtom",
     default: {
         title: "",
         due: "",
