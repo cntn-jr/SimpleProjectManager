@@ -127,7 +127,11 @@ export const TaskEditModal = memo((props: Props) => {
                             <PrimaryButton
                                 onClick={onClickUpdateTask}
                                 size="sm"
-                                isDisabled={false}
+                                isDisabled={
+                                    editTask.title == "" ||
+                                    editTask.due == "" ||
+                                    editTask.priority == ""
+                                }
                                 isLoading={loading}
                                 leftIcon={iconManager.update}
                             >
