@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { memo, ReactNode } from "react";
 import { BaseButton } from "./BaseButton";
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
     isDisabled: boolean;
 };
 
-export const PrimaryButton = (props: Props) => {
+export const PrimaryButton = memo((props: Props) => {
     const { leftIcon, children, size, onClick, isLoading, isDisabled } = props;
     return (
         <BaseButton
@@ -25,4 +25,4 @@ export const PrimaryButton = (props: Props) => {
             {children}
         </BaseButton>
     );
-};
+});

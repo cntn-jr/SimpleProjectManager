@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { iconManager } from "../../../icon";
 import { BaseButton } from "./BaseButton";
 
@@ -8,7 +9,7 @@ type Props = {
     isLoading: boolean;
 };
 
-export const DeleteButton = (props: Props) => {
+export const DeleteButton = memo((props: Props) => {
     const { size, onClick, isDisabled, isLoading } = props;
     return (
         <BaseButton
@@ -23,4 +24,4 @@ export const DeleteButton = (props: Props) => {
             Delete
         </BaseButton>
     );
-};
+});

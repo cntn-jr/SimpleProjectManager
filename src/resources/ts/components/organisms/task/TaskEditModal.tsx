@@ -1,6 +1,5 @@
 import {
     Checkbox,
-    HStack,
     Modal,
     ModalBody,
     ModalContent,
@@ -16,7 +15,7 @@ import { useRecoilState } from "recoil";
 import { iconManager } from "../../../icon";
 import { editTaskAtom } from "../../../recoil/editTaskAtom";
 import { isChangedTaskAtom } from "../../../recoil/isChangedTaskAtom";
-import { loadingAtom } from "../../../recoil/isLoadingAtom";
+import { loadingAtom } from "../../../recoil/loadingAtom";
 import { CancelButton } from "../../atomic/buttons/CancelButton";
 import { PrimaryButton } from "../../atomic/buttons/PrimaryButton";
 import { TaskForm } from "../../molecules/TaskForm";

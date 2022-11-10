@@ -1,5 +1,5 @@
-import { border, Button } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { Button } from "@chakra-ui/react";
+import { memo, ReactNode } from "react";
 
 type Props = {
     children: ReactNode;
@@ -12,7 +12,7 @@ type Props = {
     isDisabled: boolean;
 };
 
-export const BaseButton = (props: Props) => {
+export const BaseButton = memo((props: Props) => {
     const {
         children,
         size,
@@ -38,4 +38,4 @@ export const BaseButton = (props: Props) => {
             {children}
         </Button>
     );
-};
+});

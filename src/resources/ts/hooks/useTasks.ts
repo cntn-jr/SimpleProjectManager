@@ -9,7 +9,6 @@ export const useTasks = () => {
     const getTasks = useCallback((isFinishedTask: boolean) => {
         setFirstLoading(true);
         if (isFinishedTask) {
-            console.log("finished");
             axios
                 .get<Array<Task>>("/api/task/finished")
                 .then((res) => {
@@ -24,7 +23,6 @@ export const useTasks = () => {
                     setFirstLoading(false);
                 });
         } else {
-            console.log("Not finished");
             axios
                 .get<Array<Task>>("/api/task")
                 .then((res) => {

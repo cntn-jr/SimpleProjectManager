@@ -4,9 +4,9 @@ import { useRecoilState } from "recoil";
 import { useTasks } from "../../hooks/useTasks";
 import { isChangedTaskAtom } from "../../recoil/isChangedTaskAtom";
 import { isFinishedTaskAtom } from "../../recoil/isFinishedTaskAtom";
-import { loadingAtom } from "../../recoil/isLoadingAtom";
+import { loadingAtom } from "../../recoil/loadingAtom";
 import { Task } from "../../types/task";
-import { TasksTable } from "../molecules/TasksTable";
+import { TasksTable } from "../organisms/task/TasksTable";
 import { TaskAdd } from "../organisms/task/TaskAdd";
 import { TaskHeader } from "../organisms/task/TaskHeader";
 

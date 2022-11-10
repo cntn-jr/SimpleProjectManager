@@ -1,4 +1,4 @@
-import { Radio, RadioGroup, Stack, useRadio } from "@chakra-ui/react";
+import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { memo } from "react";
 
 type Props = {
