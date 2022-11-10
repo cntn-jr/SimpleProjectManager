@@ -22,6 +22,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('home', 'App\Http\Controllers\HomeController@index');
     Route::get('task', 'App\Http\Controllers\TaskController@index');
     Route::post('task/store', 'App\Http\Controllers\TaskController@store');
+    Route::put('task/update', 'App\Http\Controllers\TaskController@update');
     Route::put('task/finish', 'App\Http\Controllers\TaskController@finish');
     Route::put('task/delete', 'App\Http\Controllers\TaskController@delete');
 });

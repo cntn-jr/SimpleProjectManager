@@ -8,7 +8,7 @@ const today = moment();
 type Props = {
     title?: string;
     due?: string;
-    priority?: "high" | "middle" | "low";
+    priority?: "high" | "middle" | "low" | string;
     description?: string;
     onChangeTitle: (e: ChangeEvent<HTMLInputElement>) => void;
     onChangeDue: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -73,6 +73,7 @@ export const TaskForm = memo((props: Props) => {
                 </Select>
             </Stack>
             <Textarea
+                h="120px"
                 placeholder="description"
                 defaultValue={description}
                 color="font.100"
