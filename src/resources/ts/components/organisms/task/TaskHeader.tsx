@@ -1,11 +1,12 @@
-import { Select, Stack } from "@chakra-ui/react";
-import { memo, ReactNode } from "react";
+import { Stack } from "@chakra-ui/react";
+import { memo } from "react";
 import { useRecoilState } from "recoil";
 import { iconManager } from "../../../icon";
 import { loadingAtom } from "../../../recoil/isLoadingAtom";
 import { PrimaryButton } from "../../atomic/buttons/PrimaryButton";
 import { OrderSelectBox } from "../../atomic/task/OrderSelectBox";
 import { OrderRadioGroup } from "../../atomic/task/OrderRadioGroup";
+import { FinishedTaskSwitch } from "../../atomic/task/FinishedTaskSwitch";
 
 type Props = {
     onClickRadio: () => void;
@@ -41,6 +42,7 @@ export const TaskHeader = memo((props: Props) => {
             position="fixed"
             justifyContent="space-between"
             overflowX="scroll"
+            alignItems="center"
         >
             <Stack w="80px">
                 {showAddBtn ? (
@@ -58,7 +60,8 @@ export const TaskHeader = memo((props: Props) => {
                 )}
             </Stack>
 
-            <Stack textAlign="right" direction="row">
+            <Stack textAlign="right" direction="row" h="40px">
+                <FinishedTaskSwitch />
                 <OrderRadioGroup
                     onClickRadio={onClickRadio}
                     isDisabled={loading}
