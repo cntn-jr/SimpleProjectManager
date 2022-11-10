@@ -27,6 +27,16 @@ class TaskController extends Controller
         $new_task->save();
     }
 
+    public function update(Request $request){
+        $task = Task::find($request->id);
+        $task->title = $request->title;
+        $task->due = $request->due;
+        $task->priority = $request->priority;
+        $task->description = $request->description;
+        $task->is_finished = $request->is_finished;
+        $task->save();
+    }
+
     public function finish(Request $request)
     {
         $task_id_ary = $request->task_id_ary;

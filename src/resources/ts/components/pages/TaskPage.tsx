@@ -5,7 +5,7 @@ import { useTasks } from "../../hooks/useTasks";
 import { isChangedTaskAtom } from "../../recoil/isChangedTaskAtom";
 import { loadingAtom } from "../../recoil/isLoadingAtom";
 import { Task } from "../../types/task";
-import { TasksTable } from "../atomic/TasksTable";
+import { TasksTable } from "../molecules/TasksTable";
 import { TaskAdd } from "../organisms/task/TaskAdd";
 import { TaskHeader } from "../organisms/task/TaskHeader";
 
@@ -87,6 +87,7 @@ export const TaskPage = memo(() => {
                         mt={isOpen ? "320px" : "50px"}
                         hTable={isOpen ? "315px" : "480px"}
                         hBody={isOpen ? "275px" : "440px"}
+                        isEdit={true}
                     />
                 </>
             )}

@@ -2,7 +2,7 @@ import { Center, Spinner } from "@chakra-ui/react";
 import { memo, useEffect } from "react";
 import { useWarningTasks } from "../../../hooks/useWarningTasks";
 import { ItemHeader } from "../../atomic/ItemHeader";
-import { TasksTable } from "../../atomic/TasksTable";
+import { TasksTable } from "../../molecules/TasksTable";
 
 export const WarningTask = memo(() => {
     const { getTasks, tasks, loading } = useWarningTasks();
@@ -25,6 +25,7 @@ export const WarningTask = memo(() => {
                     mt="50px"
                     hTable="200px"
                     hBody="160px"
+                    isEdit={false}
                 />
             )}
         </>
