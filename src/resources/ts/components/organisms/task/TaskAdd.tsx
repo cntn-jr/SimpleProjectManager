@@ -24,24 +24,27 @@ export const TaskAdd = memo((props: Props) => {
     const today = moment();
     const toast = useToast();
     useEffect(() => {
-        setNewTask(["", today.format("YYYY-MM-DD").toString(), "middle", ""]);
+        setNewTask((oldNewTask) => {
+            return {
+                ...oldNewTask,
+                title: "",
+                due: today.format("YYYY-MM-DD").toString(),
+                priority: "middle",
+                description: "",
+            };
+        });
     }, []);
     const createTask = () => {
         setLoading(true);
         axios
-            .post("/api/task/store", {
-                title: newTask[0],
-                due: newTask[1],
-                priority: newTask[2],
-                description: newTask[3],
-            })
+            .post("/api/task/store", newTask)
             .then((res) => {
                 toast({
                     title: "Task created.",
                     status: "success",
                     duration: 5000,
                     isClosable: true,
-                    position: "top-right"
+                    position: "top-right",
                 });
                 onClose();
             })
@@ -54,31 +57,35 @@ export const TaskAdd = memo((props: Props) => {
             });
     };
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        const workTask = [...newTask];
-        workTask[0] = e.target.value;
-        setNewTask((newTask) => {
-            return workTask;
+        setNewTask((oldNewTask) => {
+            return {
+                ...oldNewTask,
+                title: e.target.value,
+            };
         });
     };
     const onChangeDue = (e: ChangeEvent<HTMLInputElement>) => {
-        const workTask = [...newTask];
-        workTask[1] = e.target.value;
-        setNewTask((newTask) => {
-            return workTask;
+        setNewTask((oldNewTask) => {
+            return {
+                ...oldNewTask,
+                due: e.target.value,
+            };
         });
     };
     const onChangePriority = (e: ChangeEvent<HTMLSelectElement>) => {
-        const workTask = [...newTask];
-        workTask[2] = e.target.value;
-        setNewTask((newTask) => {
-            return workTask;
+        setNewTask((oldNewTask) => {
+            return {
+                ...oldNewTask,
+                priority: e.target.value,
+            };
         });
     };
     const onChangeDescription = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        const workTask = [...newTask];
-        workTask[3] = e.target.value;
-        setNewTask((newTask) => {
-            return workTask;
+        setNewTask((oldNewTask) => {
+            return {
+                ...oldNewTask,
+                description: e.target.value,
+            };
         });
     };
     return (
@@ -115,17 +122,14 @@ export const TaskAdd = memo((props: Props) => {
                             onClick={createTask}
                             isLoading={loading}
                             isDisabled={
-                                newTask[0] == "" ||
-                                newTask[1] == "" ||
-                                newTask[2] == ""
+                                newTask.title == "" ||
+                                newTask.due == "" ||
+                                newTask.due == ""
                             }
                         >
                             OK
                         </PrimaryButton>
-                        <CancelButton
-                            onClick={onClose}
-                            isDisabled={loading}
-                        />
+                        <CancelButton onClick={onClose} isDisabled={loading} />
                     </Stack>
                 </Stack>
             ) : (
