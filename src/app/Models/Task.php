@@ -16,25 +16,37 @@ class Task extends Model
 
     protected $table = 'task';
 
-    function getWarningTask($user_id){
+    function getWarningTask($user_id)
+    {
         $tasks = $this
             ->where('user_id', $user_id)
             ->where('is_finished', 0)
             ->where('deleted_at', null)
-            ->where(function($query){
+            ->where(function ($query) {
                 $today = new Carbon('today');
                 $next_week = new Carbon('+1 week');
                 $query->where('priority', 'high')
-                ->orWhereBetween('due', [$today, $next_week]);
+                    ->orWhereBetween('due', [$today, $next_week]);
             })
             ->get();
         return $tasks;
     }
 
-    function getTask($user_id){
+    function getTask($user_id)
+    {
         $tasks = $this
             ->where('user_id', $user_id)
             ->where('is_finished', 0)
+            ->where('deleted_at', null)
+            ->get();
+        return $tasks;
+    }
+
+    function getFinishedTask($user_id)
+    {
+        $tasks = $this
+            ->where('user_id', $user_id)
+            ->where('is_finished', 1)
             ->where('deleted_at', null)
             ->get();
         return $tasks;

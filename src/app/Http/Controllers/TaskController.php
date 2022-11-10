@@ -15,6 +15,13 @@ class TaskController extends Controller
         return response()->json($tasks);
     }
 
+    public function getFinishedTask()
+    {
+        $task_model = new Task();
+        $tasks = $task_model->getFinishedTask(1);
+        return response()->json($tasks);
+    }
+
     public function store(Request $request)
     {
         $new_task = new Task();
@@ -27,7 +34,8 @@ class TaskController extends Controller
         $new_task->save();
     }
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
         $task = Task::find($request->id);
         $task->title = $request->title;
         $task->due = $request->due;
@@ -43,7 +51,7 @@ class TaskController extends Controller
         foreach ($task_id_ary as $task_id) {
             try {
                 $task = Task::find($task_id);
-                $task->is_finished = 1;
+                $task->is_finished = !$task->is_finished;
                 $task->save();
             } catch (Exception $err) {
                 return response()->json($err);

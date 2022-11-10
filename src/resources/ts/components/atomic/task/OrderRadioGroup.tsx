@@ -11,11 +11,12 @@ export const OrderRadioGroup = memo((props: Props) => {
 
     return (
         <RadioGroup
+            alignItems="center"
             defaultValue="1"
             onChange={onClickRadio}
             isDisabled={isDisabled}
         >
-            <Stack spacing={5} direction="row">
+            <Stack spacing={5} direction="row" h="40px">
                 <Radio value="1">Asc</Radio>
                 <Radio value="2">Desc</Radio>
             </Stack>

@@ -3,6 +3,7 @@ import { memo, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { useTasks } from "../../hooks/useTasks";
 import { isChangedTaskAtom } from "../../recoil/isChangedTaskAtom";
+import { isFinishedTaskAtom } from "../../recoil/isFinishedTaskAtom";
 import { loadingAtom } from "../../recoil/isLoadingAtom";
 import { Task } from "../../types/task";
 import { TasksTable } from "../molecules/TasksTable";
@@ -10,6 +11,7 @@ import { TaskAdd } from "../organisms/task/TaskAdd";
 import { TaskHeader } from "../organisms/task/TaskHeader";
 
 export const TaskPage = memo(() => {
+    const [isFinishedTask] = useRecoilState(isFinishedTaskAtom);
     const { tasks, getTasks, setTasks, firstLoading } = useTasks();
     const [isDesc, setIsDesc] = useState<boolean>(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -17,8 +19,8 @@ export const TaskPage = memo(() => {
     const [loading, setLoading] = useRecoilState(loadingAtom);
 
     useEffect(() => {
-        getTasks();
-    }, [isChangedTask]);
+        getTasks(isFinishedTask);
+    }, [isChangedTask, isFinishedTask]);
 
     const reverseTasks = () => {
         setLoading(true);
