@@ -22,5 +22,5 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 
-/src/public/js/index.js.
+/src/public/js/index.js
 /src/public/mix-manifest.json
