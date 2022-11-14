@@ -48,6 +48,9 @@ export const LoginForm = memo(() => {
                 setLoading(false);
             });
     };
+    const onClickSignupLink = () => {
+        history.push("/signup");
+    };
     return (
         <Stack spacing="20px">
             <Input
@@ -75,7 +78,12 @@ export const LoginForm = memo(() => {
                 >
                     Log in
                 </PrimaryButton>
-                <Button variant="link" color="font.50" isDisabled={loading}>
+                <Button
+                    variant="link"
+                    color="font.50"
+                    isDisabled={loading}
+                    onClick={onClickSignupLink}
+                >
                     sign up
                 </Button>
             </Stack>
