@@ -20,7 +20,6 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             return response()->json(Auth::user());
         }
-
         return response()->json([], 401);
     }
 
