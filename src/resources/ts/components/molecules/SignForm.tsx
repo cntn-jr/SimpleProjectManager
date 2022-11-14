@@ -56,7 +56,6 @@ export const SignForm = memo(() => {
         axios
             .post("/api/signup", user)
             .then((res) => {
-                console.log(res.data);
                 toast({
                     title: "Sing up succeeded.",
                     status: "success",
@@ -67,7 +66,6 @@ export const SignForm = memo(() => {
                 history.push("/login");
             })
             .catch((err) => {
-                console.log(err.response.data.errors);
                 setEmailError(err.response.data.errors.email);
                 setFirstNameError(err.response.data.errors.first_name);
                 setLastNameError(err.response.data.errors.last_name);

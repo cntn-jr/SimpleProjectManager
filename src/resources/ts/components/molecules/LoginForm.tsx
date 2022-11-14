@@ -1,15 +1,24 @@
-import { Button, Input, Stack, useToast } from "@chakra-ui/react";
+import {
+    Button,
+    FormControl,
+    FormErrorMessage,
+    Input,
+    Stack,
+    useToast,
+} from "@chakra-ui/react";
 import axios from "axios";
 import { ChangeEvent, memo, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { loginUserAtom } from "../../recoil/loginUserAtom";
 import { PrimaryButton } from "../atomic/buttons/PrimaryButton";
 
 export const LoginForm = memo(() => {
     const history = useHistory();
-    const [loginUser, setLoginUser] = useRecoilState(loginUserAtom);
+    const [loginUser, setLoginUser] = useState<{
+        email: string;
+        password: string;
+    }>({ email: "", password: "" });
     const [loading, setLoading] = useState<boolean>(false);
+    const [isError, setIsError] = useState<boolean>(false);
     const toast = useToast();
     const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
         setLoginUser((oldLoginUser) => {
@@ -36,6 +45,7 @@ export const LoginForm = memo(() => {
                 history.push("/home");
             })
             .catch((err) => {
+                setIsError(true);
                 toast({
                     title: "You could not log in.",
                     status: "error",
@@ -53,12 +63,22 @@ export const LoginForm = memo(() => {
     };
     return (
         <Stack spacing="20px">
+            <FormControl isInvalid={isError}>
+                {isError ? (
+                    <FormErrorMessage>
+                        Email address or password is incorrect.
+                    </FormErrorMessage>
+                ) : null}
+            </FormControl>
             <Input
                 placeholder="Email"
+                type="email"
                 border="none"
                 bgColor="main.1"
                 onChange={onChangeEmail}
                 isDisabled={loading}
+                isInvalid={isError}
+                isRequired
             />
             <Input
                 placeholder="Password"
@@ -67,13 +87,19 @@ export const LoginForm = memo(() => {
                 type="password"
                 onChange={onChangePassword}
                 isDisabled={loading}
+                isInvalid={isError}
+                isRequired
             />
             <Stack direction="row" spacing="50px">
                 <PrimaryButton
                     size="md"
                     onClick={onClickLogin}
                     isLoading={loading}
-                    isDisabled={false}
+                    isDisabled={
+                        loginUser.email == "" ||
+                        loginUser.password.length < 8 ||
+                        loginUser.password.length > 31
+                    }
                     leftIcon={null}
                 >
                     Log in
