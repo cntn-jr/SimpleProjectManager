@@ -30,33 +30,35 @@ export const LoginForm = memo(() => {
             return { ...oldLoginUser, password: e.target.value };
         });
     };
-    const onClickLogin = () => {
+    const onClickLogin = async () => {
         setLoading(true);
-        axios
-            .put("/api/login", loginUser)
-            .then((res) => {
-                toast({
-                    title: "Login succeeded.",
-                    status: "success",
-                    duration: 5000,
-                    isClosable: true,
-                    position: "top-right",
+        axios.get("/sanctum/csrf-cookie").then(() => {
+            axios
+                .post("/api/login", loginUser)
+                .then((res) => {
+                    setTimeout(() => {
+                        toast({
+                            title: "Login succeeded.",
+                            status: "success",
+                            duration: 5000,
+                            isClosable: true,
+                            position: "top-right",
+                        });
+                        setLoading(false);
+                        history.replace("/");
+                    }, 3 * 1000);
+                })
+                .catch((err) => {
+                    setIsError(true);
+                    toast({
+                        title: "You could not log in.",
+                        status: "error",
+                        isClosable: false,
+                        position: "top-right",
+                    });
+                    setLoading(false);
                 });
-                history.push("/home");
-            })
-            .catch((err) => {
-                setIsError(true);
-                toast({
-                    title: "You could not log in.",
-                    status: "error",
-                    duration: 10000,
-                    isClosable: true,
-                    position: "top-right",
-                });
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        });
     };
     const onClickSignupLink = () => {
         history.push("/signup");

@@ -14,13 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::group(['middleware' => 'api'], function () {
-    Route::put('login', 'App\Http\Controllers\LoginController@login');
-    Route::post('signup', 'App\Http\Controllers\LoginController@signup');
+Route::post('login', 'App\Http\Controllers\LoginController@login');
+Route::post('signup', 'App\Http\Controllers\LoginController@signup');
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::post('logout', 'App\Http\Controllers\LoginController@logout');
+    Route::get('user', 'App\Http\Controllers\LoginController@getLoginUser');
     Route::get('home', 'App\Http\Controllers\HomeController@index');
     Route::get('task', 'App\Http\Controllers\TaskController@index');
     Route::get('task/finished', 'App\Http\Controllers\TaskController@getFinishedTask');
