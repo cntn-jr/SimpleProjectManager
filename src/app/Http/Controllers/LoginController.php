@@ -17,10 +17,14 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) {
-            return response()->json(Auth::user());
+        if (Auth::attempt($credentials, true)) {
+            return response()->json();
         }
         return response()->json([], 401);
+    }
+
+    public function logout(){
+        Auth::logout();
     }
 
     public function signup(Request $request)
@@ -47,5 +51,10 @@ class LoginController extends Controller
             'last_name' => $request->last_name,
             'password' => Hash::make($request->password),
         ]);
+    }
+
+    public function getLoginUser(Request $request){
+        $login_user = Auth::user();
+        return response()->json($login_user);
     }
 }
