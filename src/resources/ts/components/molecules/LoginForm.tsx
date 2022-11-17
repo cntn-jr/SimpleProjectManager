@@ -4,22 +4,19 @@ import {
     FormErrorMessage,
     Input,
     Stack,
-    useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { ChangeEvent, memo, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useAuthentication } from "../../hooks/useAuthentication";
 import { PrimaryButton } from "../atomic/buttons/PrimaryButton";
 
 export const LoginForm = memo(() => {
+    const { login, loading, isError } = useAuthentication();
     const history = useHistory();
     const [loginUser, setLoginUser] = useState<{
         email: string;
         password: string;
     }>({ email: "", password: "" });
-    const [loading, setLoading] = useState<boolean>(false);
-    const [isError, setIsError] = useState<boolean>(false);
-    const toast = useToast();
     const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
         setLoginUser((oldLoginUser) => {
             return { ...oldLoginUser, email: e.target.value };
@@ -30,35 +27,8 @@ export const LoginForm = memo(() => {
             return { ...oldLoginUser, password: e.target.value };
         });
     };
-    const onClickLogin = async () => {
-        setLoading(true);
-        axios.get("/sanctum/csrf-cookie").then(() => {
-            axios
-                .post("/api/login", loginUser)
-                .then((res) => {
-                    setTimeout(() => {
-                        toast({
-                            title: "Login succeeded.",
-                            status: "success",
-                            duration: 5000,
-                            isClosable: true,
-                            position: "top-right",
-                        });
-                        setLoading(false);
-                        history.replace("/");
-                    }, 3 * 1000);
-                })
-                .catch((err) => {
-                    setIsError(true);
-                    toast({
-                        title: "You could not log in.",
-                        status: "error",
-                        isClosable: false,
-                        position: "top-right",
-                    });
-                    setLoading(false);
-                });
-        });
+    const onClickLogin = () => {
+        login(loginUser);
     };
     const onClickSignupLink = () => {
         history.push("/signup");

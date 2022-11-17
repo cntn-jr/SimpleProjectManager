@@ -18,13 +18,20 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials, true)) {
+            $login_user_id = Auth::user()->id;
+            $login_user = User::find($login_user_id);
+            $login_user->tokens()->delete();
+            $login_user->createToken("login:user{$login_user->id}")->plainTextToken;
             return response()->json();
         }
         return response()->json([], 401);
     }
 
     public function logout(){
-        Auth::logout();
+        $login_user_id = Auth::user()->id;
+        $login_user = User::find($login_user_id);
+        $login_user->tokens()->delete();
+        auth('web')->logout();
     }
 
     public function signup(Request $request)
