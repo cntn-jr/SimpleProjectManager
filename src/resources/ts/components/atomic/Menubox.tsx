@@ -26,9 +26,7 @@ export const Menubox = memo((props: Props) => {
             display="flex"
             alignItems="center"
         >
-            {matchPath(location.pathname, `/${menuName}*`) ||
-            (matchPath(location.pathname, { path: "/", exact: true }) &&
-                menuName == "home") ? (
+            {matchPath(location.pathname, `/${menuName}*`) ? (
                 <HStack color="sub.1">
                     {icon}
                     <Text fontSize="lg" textTransform="uppercase">

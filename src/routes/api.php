@@ -20,10 +20,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', 'App\Http\Controllers\LoginController@login');
 Route::post('signup', 'App\Http\Controllers\LoginController@signup');
+Route::post('logout', 'App\Http\Controllers\LoginController@logout');
+Route::get('user', 'App\Http\Controllers\LoginController@getLoginUser');
+Route::get('isAuth', 'App\Http\Controllers\LoginController@isAuth');
+
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::post('logout', 'App\Http\Controllers\LoginController@logout');
-    Route::get('user', 'App\Http\Controllers\LoginController@getLoginUser');
     Route::get('home', 'App\Http\Controllers\HomeController@index');
     Route::get('task', 'App\Http\Controllers\TaskController@index');
     Route::get('task/finished', 'App\Http\Controllers\TaskController@getFinishedTask');
