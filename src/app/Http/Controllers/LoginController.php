@@ -61,7 +61,14 @@ class LoginController extends Controller
     }
 
     public function getLoginUser(Request $request){
-        $login_user = Auth::user();
+        $login_user = $request->user();
+        if(!Auth::check()){
+            return response()->json(false);
+        }
         return response()->json($login_user);
+    }
+
+    public function isAuth(){
+        return response()->json(Auth::check());
     }
 }

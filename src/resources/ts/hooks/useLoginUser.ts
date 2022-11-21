@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-export const userLoginUser = () => {
+export const useLoginUser = () => {
     const [loginUser, setLoginUser] = useState({});
 
     const getLoginUser = () => {
