@@ -43,6 +43,7 @@ export const useAuthentication = () => {
     };
 
     const logout = () => {
+        setLoading(true);
         axios
             .post("api/logout")
             .then(() => {
