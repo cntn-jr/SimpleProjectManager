@@ -15,12 +15,12 @@ export const FinishedTaskSwitch = memo(() => {
         <FormControl
             display="flex"
             alignItems="center"
-            w={{ sm: "40px", md: "200px", lg: "250px" }}
+            w={{ sm: "40px", md: "50px", lg: "250px" }}
         >
             <FormLabel
                 htmlFor="show-finished-task"
                 mb="0"
-                display={{ sm: "none", md: "block" }}
+                display={{ sm: "none", md: "none", lg: "block" }}
             >
                 Show Finished Task
             </FormLabel>

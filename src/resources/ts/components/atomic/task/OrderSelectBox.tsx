@@ -22,7 +22,7 @@ export const OrderSelectBox = memo((props: Props) => {
     return (
         <Select
             size="sm"
-            w="200px"
+            w={{ sm: "100px", md: "200px" }}
             bgColor="main.1"
             onChange={(e) => order(e)}
             defaultValue="Due"
