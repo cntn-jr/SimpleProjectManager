@@ -15,7 +15,7 @@ export const WarningTask = memo(() => {
         <>
             <ItemHeader text="Warning Task" borderColor="main.2.100" />
             {loading ? (
-                <Center>
+                <Center mt="200px">
                     <Spinner />
                 </Center>
             ) : (

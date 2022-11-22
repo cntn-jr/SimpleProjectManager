@@ -69,7 +69,7 @@ export const TaskPage = memo(() => {
     return (
         <>
             {firstLoading ? (
-                <Center>
+                <Center mt="200px">
                     <Spinner />
                 </Center>
             ) : (

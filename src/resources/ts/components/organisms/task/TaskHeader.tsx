@@ -29,10 +29,10 @@ export const TaskHeader = memo((props: Props) => {
     const [loading] = useRecoilState(loadingAtom);
     return (
         <Stack
-            spacing={5}
+            spacing={{ sm: "0", md: "5" }}
             direction="row"
             w={{
-                sm: "330px",
+                sm: "400px",
                 md: "610px",
                 lg: "800px",
                 xl: "1000px",
@@ -41,7 +41,7 @@ export const TaskHeader = memo((props: Props) => {
             h="40px"
             position="fixed"
             justifyContent="space-between"
-            overflowX="scroll"
+            overflowX="auto"
             alignItems="center"
         >
             <Stack w="80px">
