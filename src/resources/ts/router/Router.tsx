@@ -51,7 +51,7 @@ export const Router = memo(() => {
     return (
         <>
             {loading ? (
-                <Center>
+                <Center mt="200px">
                     <Spinner />
                 </Center>
             ) : (
