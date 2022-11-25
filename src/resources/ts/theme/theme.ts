@@ -21,7 +21,7 @@ const theme = extendTheme({
             1: "#03045E",
             2: {
                 100: "#023E8A",
-                50: "background: rgba(2, 62, 138, 0.5)",
+                50: "rgba(2, 62, 138, 0.5)",
             },
         },
         sub: {

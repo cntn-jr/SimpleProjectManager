@@ -21,6 +21,8 @@ class CreateSchedulesTable extends Migration
             $table->text('description')->nullable();
             $table->date('start_date');
             $table->date('end_date');
+            $table->string('type');
+            $table->integer('progress');
             $table->softDeletes();
             $table->timestamps();
         });
