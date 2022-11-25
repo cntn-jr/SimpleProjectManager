@@ -16,6 +16,21 @@ class Schedule extends Model
         'description',
         'start_date',
         'end_date',
+        'collapsed',
         // 'project_id',
     ];
+
+    public function getSchedules()
+    {
+        $schedules = $this->select([
+            'id',
+            'title as name',
+            // 'description as content',
+            'start_date as start',
+            'end_date as end',
+            'type',
+            'progress'
+        ])->get();
+        return $schedules;
+    }
 }
