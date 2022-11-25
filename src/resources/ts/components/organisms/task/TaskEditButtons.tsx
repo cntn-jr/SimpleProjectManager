@@ -35,7 +35,6 @@ export const TaskEditButtons = memo((props: Props) => {
                 });
             })
             .catch((err) => {
-                console.log(err);
             })
             .finally(() => {
                 setEditTasks([]);
@@ -57,7 +56,6 @@ export const TaskEditButtons = memo((props: Props) => {
                 });
             })
             .catch((err) => {
-                console.log(err);
             })
             .finally(() => {
                 setEditTasks([]);
