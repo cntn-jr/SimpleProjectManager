@@ -18,7 +18,6 @@ export const Router = memo(() => {
         setLoading(true);
         getIsAuth()
             .then((isAuth) => {
-                console.log(isAuth);
                 if (isAuth) {
                     if (
                         history.location.pathname === "/login" ||
@@ -26,7 +25,6 @@ export const Router = memo(() => {
                     ) {
                         history.replace("/home");
                     }
-                    console.log("ログインしている");
                 } else {
                     if (
                         history.location.pathname === "/home" ||
@@ -36,7 +34,6 @@ export const Router = memo(() => {
                     ) {
                         history.replace("/login");
                     }
-                    console.log("ログインしてない");
                 }
                 setIsHome(isAuth);
             })

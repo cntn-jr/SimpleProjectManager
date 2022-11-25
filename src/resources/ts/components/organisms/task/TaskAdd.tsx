@@ -1,7 +1,7 @@
 import { Stack, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import moment from "moment";
-import { ChangeEvent, memo, useEffect, useState } from "react";
+import { ChangeEvent, memo, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { iconManager } from "../../../icon";
 import { isChangedTaskAtom } from "../../../recoil/isChangedTaskAtom";
@@ -49,7 +49,6 @@ export const TaskAdd = memo((props: Props) => {
                 onClose();
             })
             .catch((err) => {
-                console.log(err);
             })
             .finally(() => {
                 setLoading(false);

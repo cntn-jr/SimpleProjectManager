@@ -78,7 +78,6 @@ export const TaskEditModal = memo((props: Props) => {
                 });
             })
             .catch((err) => {
-                console.log(err);
             })
             .finally(() => {
                 setIsChangedTask(!isChangedTask);
