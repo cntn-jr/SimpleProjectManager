@@ -4,7 +4,7 @@ import moment from "moment";
 import { ChangeEvent, memo, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { iconManager } from "../../../icon";
-import { isChangedTaskAtom } from "../../../recoil/isChangedTaskAtom";
+import { isChangedAtom } from "../../../recoil/isChangedAtom";
 import { loadingAtom } from "../../../recoil/loadingAtom";
 import { newTaskAtom } from "../../../recoil/newTaskAtom";
 import { CancelButton } from "../../atomic/buttons/CancelButton";
@@ -20,7 +20,7 @@ export const TaskAdd = memo((props: Props) => {
     const { isOpen, onClose } = props;
     const [newTask, setNewTask] = useRecoilState(newTaskAtom);
     const [loading, setLoading] = useRecoilState(loadingAtom);
-    const [isChangedTask, setIsChangedTask] = useRecoilState(isChangedTaskAtom);
+    const [isChanged, setIsChanged] = useRecoilState(isChangedAtom);
     const today = moment();
     const toast = useToast();
     useEffect(() => {
@@ -52,7 +52,7 @@ export const TaskAdd = memo((props: Props) => {
             })
             .finally(() => {
                 setLoading(false);
-                setIsChangedTask(!isChangedTask);
+                setIsChanged(!isChanged);
             });
     };
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {

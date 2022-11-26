@@ -3,7 +3,7 @@ import axios from "axios";
 import { memo } from "react";
 import { useRecoilState } from "recoil";
 import { iconManager } from "../../../icon";
-import { isChangedTaskAtom } from "../../../recoil/isChangedTaskAtom";
+import { isChangedAtom } from "../../../recoil/isChangedAtom";
 import { loadingAtom } from "../../../recoil/loadingAtom";
 import { DeleteButton } from "../../atomic/buttons/DeleteButton";
 import { PrimaryButton } from "../../atomic/buttons/PrimaryButton";
@@ -17,7 +17,7 @@ type Props = {
 export const TaskEditButtons = memo((props: Props) => {
     const { editTasks, setEditTasks } = props;
     const [loading, setLoading] = useRecoilState(loadingAtom);
-    const [isChangedTask, setIsChangedTask] = useRecoilState(isChangedTaskAtom);
+    const [isChanged, setIsChanged] = useRecoilState(isChangedAtom);
     const toast = useToast();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const onClickFinish = () => {
@@ -34,12 +34,11 @@ export const TaskEditButtons = memo((props: Props) => {
                     position: "top-right",
                 });
             })
-            .catch((err) => {
-            })
+            .catch((err) => {})
             .finally(() => {
                 setEditTasks([]);
                 setLoading(false);
-                setIsChangedTask(!isChangedTask);
+                setIsChanged(!isChanged);
             });
     };
     const onClickDelete = () => {
@@ -55,12 +54,11 @@ export const TaskEditButtons = memo((props: Props) => {
                     position: "top-right",
                 });
             })
-            .catch((err) => {
-            })
+            .catch((err) => {})
             .finally(() => {
                 setEditTasks([]);
                 setLoading(false);
-                setIsChangedTask(!isChangedTask);
+                setIsChanged(!isChanged);
             });
     };
     return (

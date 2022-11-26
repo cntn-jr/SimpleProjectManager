@@ -2,7 +2,7 @@ import { Center, Spinner, useDisclosure } from "@chakra-ui/react";
 import { memo, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { useTasks } from "../../hooks/useTasks";
-import { isChangedTaskAtom } from "../../recoil/isChangedTaskAtom";
+import { isChangedAtom } from "../../recoil/isChangedAtom";
 import { isFinishedTaskAtom } from "../../recoil/isFinishedTaskAtom";
 import { loadingAtom } from "../../recoil/loadingAtom";
 import { Task } from "../../types/task";
@@ -15,12 +15,12 @@ export const TaskPage = memo(() => {
     const { tasks, getTasks, setTasks, firstLoading } = useTasks();
     const [isDesc, setIsDesc] = useState<boolean>(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [isChangedTask, setIsChangedTask] = useRecoilState(isChangedTaskAtom);
+    const [isChanged, setIsChanged] = useRecoilState(isChangedAtom);
     const [loading, setLoading] = useRecoilState(loadingAtom);
 
     useEffect(() => {
         getTasks(isFinishedTask);
-    }, [isChangedTask, isFinishedTask]);
+    }, [isChanged, isFinishedTask]);
 
     const reverseTasks = () => {
         setLoading(true);

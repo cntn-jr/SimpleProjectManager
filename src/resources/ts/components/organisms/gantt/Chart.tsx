@@ -1,4 +1,4 @@
-import { Stack } from "@chakra-ui/react";
+import { Stack, useDisclosure } from "@chakra-ui/react";
 import {
     Gantt,
     Task,
@@ -8,6 +8,9 @@ import {
     DisplayOption,
 } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
+import { useRecoilState } from "recoil";
+import { editScheduleAtom } from "../../../recoil/editScheduleAtom";
+import { ScheduleModal } from "./ScheduleModal";
 
 type Props = {
     schedules: Array<any>;
@@ -15,6 +18,13 @@ type Props = {
 
 export const Chart = (props: Props) => {
     const { schedules } = props;
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [editSchedule, setEditSchedule] = useRecoilState(editScheduleAtom);
+
+    const onClick = (task: Task) => {
+        setEditSchedule(task);
+        onOpen();
+    };
 
     return (
         <Stack
@@ -34,6 +44,14 @@ export const Chart = (props: Props) => {
                 listCellWidth=""
                 ganttHeight={500}
                 todayColor="rgba(2, 62, 138, 0.5)"
+                onClick={onClick}
+            />
+
+            <ScheduleModal
+                isOpen={isOpen}
+                onClose={onClose}
+                isUpdate={true}
+                schedule={editSchedule}
             />
         </Stack>
     );

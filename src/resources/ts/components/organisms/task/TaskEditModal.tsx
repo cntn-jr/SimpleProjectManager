@@ -14,7 +14,7 @@ import { ChangeEvent, memo } from "react";
 import { useRecoilState } from "recoil";
 import { iconManager } from "../../../icon";
 import { editTaskAtom } from "../../../recoil/editTaskAtom";
-import { isChangedTaskAtom } from "../../../recoil/isChangedTaskAtom";
+import { isChangedAtom } from "../../../recoil/isChangedAtom";
 import { loadingAtom } from "../../../recoil/loadingAtom";
 import { CancelButton } from "../../atomic/buttons/CancelButton";
 import { PrimaryButton } from "../../atomic/buttons/PrimaryButton";
@@ -29,7 +29,7 @@ export const TaskEditModal = memo((props: Props) => {
     const { isOpen, onClose } = props;
     const [loading, setLoading] = useRecoilState(loadingAtom);
     const [editTask, setEditTask] = useRecoilState(editTaskAtom);
-    const [isChangedTask, setIsChangedTask] = useRecoilState(isChangedTaskAtom);
+    const [isChanged, setIsChanged] = useRecoilState(isChangedAtom);
     const toast = useToast();
 
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +80,7 @@ export const TaskEditModal = memo((props: Props) => {
             .catch((err) => {
             })
             .finally(() => {
-                setIsChangedTask(!isChangedTask);
+                setIsChanged(!isChanged);
                 setLoading(false);
             });
     };
