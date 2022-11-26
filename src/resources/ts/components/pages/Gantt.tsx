@@ -1,7 +1,9 @@
 import { memo, useEffect, useState } from "react";
 import { useSchedule } from "../../hooks/useSchedule";
 import { Center, Spinner } from "@chakra-ui/react";
-import { Chart } from "../organisms/Chart";
+import { Chart } from "../organisms/gantt/Chart";
+import { useRecoilState } from "recoil";
+import { isChangedAtom } from "../../recoil/isChangedAtom";
 
 export const Gantt = memo(() => {
     const { getSchedules } = useSchedule();
@@ -16,6 +18,7 @@ export const Gantt = memo(() => {
             progress: 100,
         },
     ]);
+    const [isChanged] = useRecoilState(isChangedAtom);
     useEffect(() => {
         setLoading(true);
         getSchedules().then((schedules) => {
@@ -31,7 +34,7 @@ export const Gantt = memo(() => {
             setSchedules([...newSchedules]);
             setLoading(false);
         });
-    }, []);
+    }, [isChanged]);
     return (
         <>
             {loading ? (
