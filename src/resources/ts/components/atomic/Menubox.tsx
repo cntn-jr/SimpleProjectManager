@@ -19,22 +19,25 @@ export const Menubox = memo((props: Props) => {
     const { icon, menuName } = props;
 
     return (
-        <Box
-            onClick={() => moveMainPage(menuName)}
-            h="100px"
-            _hover={{ opacity: 0.7 }}
-            display="flex"
-            alignItems="center"
-        >
+        <Box h="100px" display="flex" alignItems="center">
             {matchPath(location.pathname, `/${menuName}*`) ? (
-                <HStack color="sub.1">
+                <HStack
+                    color="sub.1"
+                    cursor="pointer"
+                    _hover={{ opacity: 0.7 }}
+                    onClick={() => moveMainPage(menuName)}
+                >
                     {icon}
                     <Text fontSize="lg" textTransform="uppercase">
                         {menuName}
                     </Text>
                 </HStack>
             ) : (
-                <HStack>
+                <HStack
+                    cursor="pointer"
+                    _hover={{ opacity: 0.7 }}
+                    onClick={() => moveMainPage(menuName)}
+                >
                     {icon}
                     <Text fontSize="lg" textTransform="uppercase">
                         {menuName}
