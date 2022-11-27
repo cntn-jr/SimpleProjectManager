@@ -53,6 +53,27 @@ export const useTasks = () => {
         }
     }, []);
 
+    const createTask = (onClose: () => void) => {
+        setLoading(true);
+        axios
+            .post("/api/task/store", task)
+            .then((res) => {
+                toast({
+                    title: "Task created.",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top-right",
+                });
+                onClose();
+            })
+            .catch((err) => {})
+            .finally(() => {
+                setLoading(false);
+                setIsChanged(!isChanged);
+            });
+    };
+
     const updateTask = () => {
         setLoading(true);
         axios
@@ -120,6 +141,7 @@ export const useTasks = () => {
         getTasks,
         orderTasks,
         setOrderTasks,
+        createTask,
         updateTask,
         finishTask,
         deleteTask,
