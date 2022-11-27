@@ -1,7 +1,8 @@
 import { Input, Select, Stack, Textarea, VStack } from "@chakra-ui/react";
-import { ChangeEvent, memo } from "react";
+import { memo } from "react";
 
 import moment from "moment";
+import { OperationTaskForm } from "../../OperationForm/OperationTaskForm";
 
 const today = moment();
 
@@ -10,10 +11,6 @@ type Props = {
     due?: string;
     priority?: "high" | "middle" | "low" | string;
     description?: string;
-    onChangeTitle: (e: ChangeEvent<HTMLInputElement>) => void;
-    onChangeDue: (e: ChangeEvent<HTMLInputElement>) => void;
-    onChangePriority: (e: ChangeEvent<HTMLSelectElement>) => void;
-    onChangeDescription: (e: ChangeEvent<HTMLTextAreaElement>) => void;
     isLoading: boolean;
 };
 
@@ -23,12 +20,14 @@ export const TaskForm = memo((props: Props) => {
         due = today.format("YYYY-MM-DD").toString(),
         priority = "middle",
         description = "",
+        isLoading,
+    } = props;
+    const {
         onChangeTitle,
         onChangeDue,
         onChangePriority,
         onChangeDescription,
-        isLoading,
-    } = props;
+    } = OperationTaskForm();
     return (
         <VStack>
             <Input

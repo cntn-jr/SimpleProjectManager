@@ -5,16 +5,16 @@ import {
     Thead,
     useDisclosure,
 } from "@chakra-ui/react";
-import { ChangeEvent, memo } from "react";
+import { memo } from "react";
 import { useRecoilState } from "recoil";
 import { Task } from "../../../types/task";
-import { editTasksAtom } from "../../../recoil/editTasksAtom";
 import { TaskEditButtons } from "./TaskEditButtons";
 import { loadingAtom } from "../../../recoil/loadingAtom";
 import { TaskEditModal } from "./TaskEditModal";
-import { editTaskAtom } from "../../../recoil/editTaskAtom";
 import { TaskTableBody } from "../../molecules/TaskTableBody";
 import { TaskTableHead } from "../../molecules/TaskTableHead";
+import { taskAtom } from "../../../recoil/taskAtom";
+import { OperationTaskForm } from "../../../OperationForm/OperationTaskForm";
 
 type Props = {
     tasks: Array<Task>;
@@ -27,31 +27,13 @@ type Props = {
 
 export const TasksTable = memo((props: Props) => {
     const { tasks, isCheckbox, mt, hTable, hBody, isEdit } = props;
-    const [editTasks, setEditTasks] = useRecoilState(editTasksAtom);
     const [loading, setLoading] = useRecoilState(loadingAtom);
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [editTask, setEditTask] = useRecoilState(editTaskAtom);
-    const onChangeCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
-        const task_id = e.target.value;
-        const workEditTasks = [...editTasks];
-        if (
-            workEditTasks.find((editTaskId) => {
-                return editTaskId === task_id;
-            })
-        ) {
-            setEditTasks((newEditTasks) => {
-                return [...newEditTasks].filter((editTaskId) => {
-                    return editTaskId !== task_id;
-                });
-            });
-        } else {
-            setEditTasks((newEditTasks) => {
-                return [...newEditTasks, task_id];
-            });
-        }
-    };
+    const [task, setTask] = useRecoilState(taskAtom);
+    const { onChangeCheckbox } = OperationTaskForm();
+
     const onClickTr = (task: Task) => {
-        setEditTask((oldEditTask) => {
+        setTask(() => {
             return task;
         });
         onOpen();
@@ -100,7 +82,7 @@ export const TasksTable = memo((props: Props) => {
                     </Tbody>
                 </Table>
             </TableContainer>
-            <TaskEditButtons editTasks={editTasks} />
+            <TaskEditButtons />
             {isEdit ? (
                 <TaskEditModal isOpen={isOpen} onClose={onClose} />
             ) : (

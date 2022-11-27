@@ -1,8 +1,8 @@
 import { atom } from "recoil";
 import { Task } from "../types/task";
 
-export const editTaskAtom = atom({
-    key: "editTaskAtom",
+export const taskAtom = atom({
+    key: "taskAtom",
     default: <Task>{
         id: 0,
         title: "",
