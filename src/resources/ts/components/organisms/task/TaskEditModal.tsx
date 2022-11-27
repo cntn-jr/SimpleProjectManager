@@ -7,15 +7,12 @@ import {
     ModalHeader,
     ModalOverlay,
     Stack,
-    useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { ChangeEvent, memo } from "react";
 import { useRecoilState } from "recoil";
+import { useTasks } from "../../../hooks/useTasks";
 import { iconManager } from "../../../icon";
 import { editTaskAtom } from "../../../recoil/editTaskAtom";
-import { isChangedAtom } from "../../../recoil/isChangedAtom";
-import { loadingAtom } from "../../../recoil/loadingAtom";
 import { CancelButton } from "../../atomic/buttons/CancelButton";
 import { PrimaryButton } from "../../atomic/buttons/PrimaryButton";
 import { TaskForm } from "../../molecules/TaskForm";
@@ -27,10 +24,8 @@ type Props = {
 
 export const TaskEditModal = memo((props: Props) => {
     const { isOpen, onClose } = props;
-    const [loading, setLoading] = useRecoilState(loadingAtom);
     const [editTask, setEditTask] = useRecoilState(editTaskAtom);
-    const [isChanged, setIsChanged] = useRecoilState(isChangedAtom);
-    const toast = useToast();
+    const { updateTask, loading } = useTasks();
 
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setEditTask((oldEditTask) => {
@@ -62,27 +57,6 @@ export const TaskEditModal = memo((props: Props) => {
                 return { ...oldEditTask, is_finished: 0 };
             });
         }
-    };
-
-    const onClickUpdateTask = () => {
-        setLoading(true);
-        axios
-            .put("api/task/update", editTask)
-            .then(() => {
-                toast({
-                    title: "Task updated.",
-                    status: "success",
-                    duration: 5000,
-                    isClosable: true,
-                    position: "top-right",
-                });
-            })
-            .catch((err) => {
-            })
-            .finally(() => {
-                setIsChanged(!isChanged);
-                setLoading(false);
-            });
     };
 
     return (
@@ -123,7 +97,7 @@ export const TaskEditModal = memo((props: Props) => {
                     <ModalFooter>
                         <Stack direction="row">
                             <PrimaryButton
-                                onClick={onClickUpdateTask}
+                                onClick={updateTask}
                                 size="sm"
                                 isDisabled={
                                     editTask.title == "" ||

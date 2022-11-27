@@ -1,14 +1,8 @@
 import {
-    Badge,
-    Checkbox,
     Table,
     TableContainer,
     Tbody,
-    Td,
-    Text,
-    Th,
     Thead,
-    Tr,
     useDisclosure,
 } from "@chakra-ui/react";
 import { ChangeEvent, memo } from "react";
@@ -106,10 +100,7 @@ export const TasksTable = memo((props: Props) => {
                     </Tbody>
                 </Table>
             </TableContainer>
-            <TaskEditButtons
-                editTasks={editTasks}
-                setEditTasks={setEditTasks}
-            />
+            <TaskEditButtons editTasks={editTasks} />
             {isEdit ? (
                 <TaskEditModal isOpen={isOpen} onClose={onClose} />
             ) : (

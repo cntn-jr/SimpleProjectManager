@@ -1,66 +1,19 @@
-import { Stack, useDisclosure, useToast } from "@chakra-ui/react";
-import axios from "axios";
+import { Stack, useDisclosure } from "@chakra-ui/react";
 import { memo } from "react";
-import { useRecoilState } from "recoil";
+import { useTasks } from "../../../hooks/useTasks";
 import { iconManager } from "../../../icon";
-import { isChangedAtom } from "../../../recoil/isChangedAtom";
-import { loadingAtom } from "../../../recoil/loadingAtom";
 import { DeleteButton } from "../../atomic/buttons/DeleteButton";
 import { PrimaryButton } from "../../atomic/buttons/PrimaryButton";
 import { DeleteModal } from "../../molecules/DeleteModal";
 
 type Props = {
     editTasks: Array<string>;
-    setEditTasks: (ary: Array<string>) => void;
 };
 
 export const TaskEditButtons = memo((props: Props) => {
-    const { editTasks, setEditTasks } = props;
-    const [loading, setLoading] = useRecoilState(loadingAtom);
-    const [isChanged, setIsChanged] = useRecoilState(isChangedAtom);
-    const toast = useToast();
+    const { editTasks } = props;
+    const { finishTask, deleteTask, loading } = useTasks();
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const onClickFinish = () => {
-        setLoading(true);
-        axios
-            .put("/api/task/finish", { task_id_ary: editTasks })
-            .then(() => {
-                toast({
-                    title: "Task updated.",
-                    description: "Task Finish!!",
-                    status: "success",
-                    duration: 5000,
-                    isClosable: true,
-                    position: "top-right",
-                });
-            })
-            .catch((err) => {})
-            .finally(() => {
-                setEditTasks([]);
-                setLoading(false);
-                setIsChanged(!isChanged);
-            });
-    };
-    const onClickDelete = () => {
-        setLoading(true);
-        axios
-            .put("/api/task/delete", { task_id_ary: editTasks })
-            .then(() => {
-                toast({
-                    title: "Task deleted.",
-                    status: "success",
-                    duration: 5000,
-                    isClosable: true,
-                    position: "top-right",
-                });
-            })
-            .catch((err) => {})
-            .finally(() => {
-                setEditTasks([]);
-                setLoading(false);
-                setIsChanged(!isChanged);
-            });
-    };
     return (
         <>
             {editTasks.length ? (
@@ -69,7 +22,7 @@ export const TaskEditButtons = memo((props: Props) => {
                         <PrimaryButton
                             leftIcon={iconManager.check}
                             size="sm"
-                            onClick={onClickFinish}
+                            onClick={finishTask}
                             isLoading={loading}
                             isDisabled={false}
                         >
@@ -83,7 +36,7 @@ export const TaskEditButtons = memo((props: Props) => {
                         />
                     </Stack>
                     <DeleteModal
-                        onClick={onClickDelete}
+                        onClick={deleteTask}
                         isOpen={isOpen}
                         onClose={onClose}
                     />
