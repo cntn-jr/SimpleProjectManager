@@ -1,11 +1,9 @@
-import { Stack, useToast } from "@chakra-ui/react";
-import axios from "axios";
+import { Stack } from "@chakra-ui/react";
 import moment from "moment";
 import { memo, useEffect } from "react";
 import { useRecoilState } from "recoil";
+import { useTasks } from "../../../hooks/useTasks";
 import { iconManager } from "../../../icon";
-import { OperationTaskForm } from "../../../OperationForm/OperationTaskForm";
-import { isChangedAtom } from "../../../recoil/isChangedAtom";
 import { loadingAtom } from "../../../recoil/loadingAtom";
 import { taskAtom } from "../../../recoil/taskAtom";
 import { CancelButton } from "../../atomic/buttons/CancelButton";
@@ -21,15 +19,8 @@ export const TaskAdd = memo((props: Props) => {
     const { isOpen, onClose } = props;
     const [task, setTask] = useRecoilState(taskAtom);
     const [loading, setLoading] = useRecoilState(loadingAtom);
-    const [isChanged, setIsChanged] = useRecoilState(isChangedAtom);
-    const {
-        onChangeTitle,
-        onChangeDue,
-        onChangePriority,
-        onChangeDescription,
-    } = OperationTaskForm();
+    const { createTask } = useTasks();
     const today = moment();
-    const toast = useToast();
     useEffect(() => {
         setTask((oldTask) => {
             return {
@@ -41,26 +32,6 @@ export const TaskAdd = memo((props: Props) => {
             };
         });
     }, []);
-    const createTask = () => {
-        setLoading(true);
-        axios
-            .post("/api/task/store", task)
-            .then((res) => {
-                toast({
-                    title: "Task created.",
-                    status: "success",
-                    duration: 5000,
-                    isClosable: true,
-                    position: "top-right",
-                });
-                onClose();
-            })
-            .catch((err) => {})
-            .finally(() => {
-                setLoading(false);
-                setIsChanged(!isChanged);
-            });
-    };
     return (
         <>
             {isOpen ? (
@@ -86,7 +57,7 @@ export const TaskAdd = memo((props: Props) => {
                         <PrimaryButton
                             leftIcon={iconManager.check}
                             size="md"
-                            onClick={createTask}
+                            onClick={() => createTask(onClose)}
                             isLoading={loading}
                             isDisabled={
                                 task.title == "" ||
