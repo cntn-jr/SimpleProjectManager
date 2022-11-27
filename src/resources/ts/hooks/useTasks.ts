@@ -2,21 +2,21 @@ import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { useRecoilState } from "recoil";
-import { editTaskAtom } from "../recoil/editTaskAtom";
-import { editTasksAtom } from "../recoil/editTasksAtom";
+import { tasksAtom } from "../recoil/tasksAtom";
 import { isChangedAtom } from "../recoil/isChangedAtom";
 import { loadingAtom } from "../recoil/loadingAtom";
+import { taskAtom } from "../recoil/taskAtom";
 import { Task } from "../types/task";
 
 export const useTasks = () => {
-    const [tasks, setTasks] = useState<Array<Task>>([]);
+    const [orderTasks, setOrderTasks] = useState<Array<Task>>([]);
     const [firstLoading, setFirstLoading] = useState<boolean>(false);
     const [loading, setLoading] = useRecoilState(loadingAtom);
     const [isChanged, setIsChanged] = useRecoilState(isChangedAtom);
     // モーダルで編集する１つのタスク
-    const [editTask, setEditTask] = useRecoilState(editTaskAtom);
+    const [task, setTask] = useRecoilState(taskAtom);
     // チェックボックスで操作する複数のタスク
-    const [editTasks, setEditTasks] = useRecoilState(editTasksAtom);
+    const [tasks, setTasks] = useRecoilState(tasksAtom);
 
     const toast = useToast();
 
@@ -26,7 +26,7 @@ export const useTasks = () => {
             axios
                 .get<Array<Task>>("/api/task/finished")
                 .then((res) => {
-                    setTasks(
+                    setOrderTasks(
                         res.data.sort((a, b) => {
                             if (a.due > b.due) return 1;
                             return -1;
@@ -40,7 +40,7 @@ export const useTasks = () => {
             axios
                 .get<Array<Task>>("/api/task")
                 .then((res) => {
-                    setTasks(
+                    setOrderTasks(
                         res.data.sort((a, b) => {
                             if (a.due > b.due) return 1;
                             return -1;
@@ -56,7 +56,7 @@ export const useTasks = () => {
     const updateTask = () => {
         setLoading(true);
         axios
-            .put("api/task/update", editTask)
+            .put("api/task/update", task)
             .then(() => {
                 toast({
                     title: "Task updated.",
@@ -76,7 +76,7 @@ export const useTasks = () => {
     const finishTask = () => {
         setLoading(true);
         axios
-            .put("/api/task/finish", { task_id_ary: editTasks })
+            .put("/api/task/finish", { task_id_ary: tasks })
             .then(() => {
                 toast({
                     title: "Task updated.",
@@ -89,7 +89,7 @@ export const useTasks = () => {
             })
             .catch((err) => {})
             .finally(() => {
-                setEditTasks([]);
+                setTasks([]);
                 setLoading(false);
                 setIsChanged(!isChanged);
             });
@@ -98,7 +98,7 @@ export const useTasks = () => {
     const deleteTask = () => {
         setLoading(true);
         axios
-            .put("/api/task/delete", { task_id_ary: editTasks })
+            .put("/api/task/delete", { task_id_ary: tasks })
             .then(() => {
                 toast({
                     title: "Task deleted.",
@@ -110,7 +110,7 @@ export const useTasks = () => {
             })
             .catch((err) => {})
             .finally(() => {
-                setEditTasks([]);
+                setTasks([]);
                 setLoading(false);
                 setIsChanged(!isChanged);
             });
@@ -118,8 +118,8 @@ export const useTasks = () => {
 
     return {
         getTasks,
-        tasks,
-        setTasks,
+        orderTasks,
+        setOrderTasks,
         updateTask,
         finishTask,
         deleteTask,

@@ -12,7 +12,7 @@ import { TaskHeader } from "../organisms/task/TaskHeader";
 
 export const TaskPage = memo(() => {
     const [isFinishedTask] = useRecoilState(isFinishedTaskAtom);
-    const { tasks, getTasks, setTasks, firstLoading } = useTasks();
+    const { orderTasks, getTasks, setOrderTasks, firstLoading } = useTasks();
     const [isDesc, setIsDesc] = useState<boolean>(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [isChanged, setIsChanged] = useRecoilState(isChangedAtom);
@@ -27,28 +27,28 @@ export const TaskPage = memo(() => {
         let isDescClone;
         isDescClone = isDesc;
         setIsDesc(!isDescClone);
-        setTasks([...tasks].reverse());
+        setOrderTasks([...orderTasks].reverse());
         setLoading(false);
     };
 
     const sortTitle = () => {
         setLoading(true);
-        let newTask = [...tasks].sort((a, b) => {
+        let newTask = [...orderTasks].sort((a, b) => {
             if (a.title < b.title) return 1;
             return -1;
         });
-        if (isDesc) setTasks(newTask);
-        else setTasks(newTask.reverse());
+        if (isDesc) setOrderTasks(newTask);
+        else setOrderTasks(newTask.reverse());
         setLoading(false);
     };
     const sortDue = () => {
         setLoading(true);
-        let newTask = [...tasks].sort((a, b) => {
+        let newTask = [...orderTasks].sort((a, b) => {
             if (a.due < b.due) return 1;
             return -1;
         });
-        if (isDesc) setTasks(newTask);
-        else setTasks(newTask.reverse());
+        if (isDesc) setOrderTasks(newTask);
+        else setOrderTasks(newTask.reverse());
         setLoading(false);
     };
     const sortPriority = () => {
@@ -56,13 +56,13 @@ export const TaskPage = memo(() => {
         const highTask: Array<Task> = [];
         const middleTask: Array<Task> = [];
         const lowTask: Array<Task> = [];
-        tasks.map((task) => {
-            if (task.priority == "high") highTask.push(task);
-            else if (task.priority == "middle") middleTask.push(task);
-            else lowTask.push(task);
+        orderTasks.map((orderTask) => {
+            if (orderTask.priority == "high") highTask.push(orderTask);
+            else if (orderTask.priority == "middle") middleTask.push(orderTask);
+            else lowTask.push(orderTask);
         });
-        if (isDesc) setTasks([...highTask, ...middleTask, ...lowTask]);
-        else setTasks([...lowTask, ...middleTask, ...highTask]);
+        if (isDesc) setOrderTasks([...highTask, ...middleTask, ...lowTask]);
+        else setOrderTasks([...lowTask, ...middleTask, ...highTask]);
         setLoading(false);
     };
 
@@ -84,7 +84,7 @@ export const TaskPage = memo(() => {
                     />
                     <TaskAdd isOpen={isOpen} onClose={onClose} />
                     <TasksTable
-                        tasks={tasks}
+                        tasks={orderTasks}
                         isCheckbox={!isOpen}
                         mt={isOpen ? "320px" : "50px"}
                         hTable={isOpen ? "315px" : "480px"}

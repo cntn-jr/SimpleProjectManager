@@ -1,12 +1,13 @@
 import { Stack, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import moment from "moment";
-import { ChangeEvent, memo, useEffect } from "react";
+import { memo, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { iconManager } from "../../../icon";
+import { OperationTaskForm } from "../../../OperationForm/OperationTaskForm";
 import { isChangedAtom } from "../../../recoil/isChangedAtom";
 import { loadingAtom } from "../../../recoil/loadingAtom";
-import { newTaskAtom } from "../../../recoil/newTaskAtom";
+import { taskAtom } from "../../../recoil/taskAtom";
 import { CancelButton } from "../../atomic/buttons/CancelButton";
 import { PrimaryButton } from "../../atomic/buttons/PrimaryButton";
 import { TaskForm } from "../../molecules/TaskForm";
@@ -18,15 +19,21 @@ type Props = {
 
 export const TaskAdd = memo((props: Props) => {
     const { isOpen, onClose } = props;
-    const [newTask, setNewTask] = useRecoilState(newTaskAtom);
+    const [task, setTask] = useRecoilState(taskAtom);
     const [loading, setLoading] = useRecoilState(loadingAtom);
     const [isChanged, setIsChanged] = useRecoilState(isChangedAtom);
+    const {
+        onChangeTitle,
+        onChangeDue,
+        onChangePriority,
+        onChangeDescription,
+    } = OperationTaskForm();
     const today = moment();
     const toast = useToast();
     useEffect(() => {
-        setNewTask((oldNewTask) => {
+        setTask((oldTask) => {
             return {
-                ...oldNewTask,
+                ...oldTask,
                 title: "",
                 due: today.format("YYYY-MM-DD").toString(),
                 priority: "middle",
@@ -37,7 +44,7 @@ export const TaskAdd = memo((props: Props) => {
     const createTask = () => {
         setLoading(true);
         axios
-            .post("/api/task/store", newTask)
+            .post("/api/task/store", task)
             .then((res) => {
                 toast({
                     title: "Task created.",
@@ -48,44 +55,11 @@ export const TaskAdd = memo((props: Props) => {
                 });
                 onClose();
             })
-            .catch((err) => {
-            })
+            .catch((err) => {})
             .finally(() => {
                 setLoading(false);
                 setIsChanged(!isChanged);
             });
-    };
-    const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewTask((oldNewTask) => {
-            return {
-                ...oldNewTask,
-                title: e.target.value,
-            };
-        });
-    };
-    const onChangeDue = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewTask((oldNewTask) => {
-            return {
-                ...oldNewTask,
-                due: e.target.value,
-            };
-        });
-    };
-    const onChangePriority = (e: ChangeEvent<HTMLSelectElement>) => {
-        setNewTask((oldNewTask) => {
-            return {
-                ...oldNewTask,
-                priority: e.target.value,
-            };
-        });
-    };
-    const onChangeDescription = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setNewTask((oldNewTask) => {
-            return {
-                ...oldNewTask,
-                description: e.target.value,
-            };
-        });
     };
     return (
         <>
@@ -107,13 +81,7 @@ export const TaskAdd = memo((props: Props) => {
                     borderColor="font.100"
                     justifyContent="space-around"
                 >
-                    <TaskForm
-                        onChangeTitle={onChangeTitle}
-                        onChangeDue={onChangeDue}
-                        onChangePriority={onChangePriority}
-                        onChangeDescription={onChangeDescription}
-                        isLoading={loading}
-                    />
+                    <TaskForm isLoading={loading} />
                     <Stack direction="row">
                         <PrimaryButton
                             leftIcon={iconManager.check}
@@ -121,9 +89,9 @@ export const TaskAdd = memo((props: Props) => {
                             onClick={createTask}
                             isLoading={loading}
                             isDisabled={
-                                newTask.title == "" ||
-                                newTask.due == "" ||
-                                newTask.due == ""
+                                task.title == "" ||
+                                task.due == "" ||
+                                task.due == ""
                             }
                         >
                             OK

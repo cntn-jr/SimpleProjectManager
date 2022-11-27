@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-export const editTasksAtom = atom({
-    key: "editTasksAtom",
+export const tasksAtom = atom({
+    key: "tasksAtom",
     default: <Array<string>>[],
 });
