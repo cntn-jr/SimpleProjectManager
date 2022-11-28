@@ -10,15 +10,11 @@ import {
 import axios from "axios";
 import { ChangeEvent, memo, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { signupUser } from "../../types/signupUser";
 import { PrimaryButton } from "../atomic/buttons/PrimaryButton";
 
 export const SignForm = memo(() => {
-    const [user, setUser] = useState<{
-        email: string;
-        first_name: string;
-        last_name: string;
-        password: string;
-    }>({
+    const [user, setUser] = useState<signupUser>({
         email: "",
         first_name: "",
         last_name: "",
