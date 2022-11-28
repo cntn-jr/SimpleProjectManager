@@ -3,9 +3,9 @@ export type Task = {
     title: string;
     description: string;
     priority: "high" | "middle" | "low" | string;
-    due: any;
+    due: string;
     is_finished: number;
     user_id: number;
-    created_at: null;
-    updated_at: null;
+    created_at?: string | null;
+    updated_at?: string | null;
 };
