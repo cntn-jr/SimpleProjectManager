@@ -4,14 +4,12 @@ import { useRecoilState } from "recoil";
 import { useTasks } from "../../../hooks/useTasks";
 import { iconManager } from "../../../icon";
 import { tasksAtom } from "../../../recoil/tasksAtom";
-import { DeleteButton } from "../../atomic/buttons/DeleteButton";
 import { PrimaryButton } from "../../atomic/buttons/PrimaryButton";
-import { DeleteModal } from "../../molecules/DeleteModal";
+import { DeleteContents } from "../../molecules/DeleteContents";
 
 export const TaskEditButtons = memo(() => {
     const [tasks] = useRecoilState(tasksAtom);
     const { finishTask, deleteTask, loading } = useTasks();
-    const { isOpen, onOpen, onClose } = useDisclosure();
     return (
         <>
             {tasks.length ? (
@@ -26,18 +24,11 @@ export const TaskEditButtons = memo(() => {
                         >
                             Finish
                         </PrimaryButton>
-                        <DeleteButton
-                            size="sm"
-                            onClick={onOpen}
-                            isDisabled={false}
-                            isLoading={loading}
+                        <DeleteContents
+                            loading={loading}
+                            onClickDelete={deleteTask}
                         />
                     </Stack>
-                    <DeleteModal
-                        onClick={deleteTask}
-                        isOpen={isOpen}
-                        onClose={onClose}
-                    />
                 </>
             ) : (
                 <></>
