@@ -36,4 +36,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('schedules', 'App\Http\Controllers\ScheduleController@index');
     Route::post('schedule/store', 'App\Http\Controllers\ScheduleController@store');
     Route::put('schedule/update', 'App\Http\Controllers\ScheduleController@update');
+    Route::put('schedule/delete', 'App\Http\Controllers\ScheduleController@delete');
 });

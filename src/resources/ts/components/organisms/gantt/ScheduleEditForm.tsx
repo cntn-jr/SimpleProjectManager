@@ -22,7 +22,7 @@ type Props = {
 
 export const ScheduleEditForm = (props: Props) => {
     const { schedule, onClose } = props;
-    const { updateSchedule, loading } = useSchedule();
+    const { updateSchedule, deleteSchedule, loading } = useSchedule();
     const [editSchedule, setEditSchedule] = useRecoilState(scheduleAtom);
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setEditSchedule({ ...editSchedule, name: e.target.value });
@@ -36,7 +36,9 @@ export const ScheduleEditForm = (props: Props) => {
     const onClickUpdate = () => {
         updateSchedule();
     };
-    const onClickDelete = () => {};
+    const onClickDelete = () => {
+        deleteSchedule();
+    };
     return (
         <>
             <ModalHeader color="font.100" h="80px">
