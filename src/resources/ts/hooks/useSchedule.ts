@@ -4,6 +4,7 @@ import { Task } from "gantt-task-react";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { isChangedAtom } from "../recoil/isChangedAtom";
+import { scheduleAtom } from "../recoil/scheduleAtom";
 import { Schedule } from "../types/schedule";
 
 type promiseType = (data: Array<any>) => void;
@@ -13,6 +14,7 @@ export const useSchedule = () => {
     const [schedulesLoading, setSchedulesLoading] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [isChanged, setIsChanged] = useRecoilState(isChangedAtom);
+    const [editSchedule, setEditSchedule] = useRecoilState(scheduleAtom);
     const toast = useToast();
     const getSchedules = () => {
         return new Promise((resolve: promiseType, reject: promiseType) => {
@@ -27,12 +29,12 @@ export const useSchedule = () => {
         });
     };
 
-    const updateSchedule = (schedule: Task) => {
+    const updateSchedule = () => {
         setLoading(true);
         const castedSchedule = {
-            ...schedule,
-            start: schedule.start.toISOString().split("T")[0],
-            end: schedule.end.toISOString().split("T")[0],
+            ...editSchedule,
+            start: editSchedule.start.toISOString().split("T")[0],
+            end: editSchedule.end.toISOString().split("T")[0],
         };
         axios
             .put("/api/schedule/update", castedSchedule)
@@ -43,6 +45,14 @@ export const useSchedule = () => {
                     duration: 5000,
                     isClosable: true,
                     position: "top-right",
+                });
+                setEditSchedule({
+                    start: new Date(2020, 1, 1),
+                    end: new Date(2020, 1, 2),
+                    name: "Idea",
+                    id: "Task 0",
+                    type: "task",
+                    progress: 100,
                 });
             })
             .catch((err) => {

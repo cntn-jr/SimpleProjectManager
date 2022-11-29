@@ -9,7 +9,7 @@ import {
 } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
 import { useRecoilState } from "recoil";
-import { editScheduleAtom } from "../../../recoil/editScheduleAtom";
+import { scheduleAtom } from "../../../recoil/scheduleAtom";
 import { ScheduleModal } from "./ScheduleModal";
 
 type Props = {
@@ -19,7 +19,7 @@ type Props = {
 export const Chart = (props: Props) => {
     const { schedules } = props;
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [editSchedule, setEditSchedule] = useRecoilState(editScheduleAtom);
+    const [editSchedule, setEditSchedule] = useRecoilState(scheduleAtom);
 
     const onClick = (task: Task) => {
         setEditSchedule(task);

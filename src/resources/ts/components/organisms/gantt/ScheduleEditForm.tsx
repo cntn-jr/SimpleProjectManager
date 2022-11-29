@@ -10,7 +10,7 @@ import { ChangeEvent } from "react";
 import { useRecoilState } from "recoil";
 import { useSchedule } from "../../../hooks/useSchedule";
 import { iconManager } from "../../../icon";
-import { editScheduleAtom } from "../../../recoil/editScheduleAtom";
+import { scheduleAtom } from "../../../recoil/scheduleAtom";
 import { CancelButton } from "../../atomic/buttons/CancelButton";
 import { PrimaryButton } from "../../atomic/buttons/PrimaryButton";
 
@@ -22,7 +22,7 @@ type Props = {
 export const ScheduleEditForm = (props: Props) => {
     const { schedule, onClose } = props;
     const { updateSchedule, loading } = useSchedule();
-    const [editSchedule, setEditSchedule] = useRecoilState(editScheduleAtom);
+    const [editSchedule, setEditSchedule] = useRecoilState(scheduleAtom);
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setEditSchedule({ ...editSchedule, name: e.target.value });
     };
@@ -33,7 +33,7 @@ export const ScheduleEditForm = (props: Props) => {
         setEditSchedule({ ...editSchedule, end: new Date(e.target.value) });
     };
     const onClickUpdate = () => {
-        updateSchedule({ ...editSchedule });
+        updateSchedule();
     };
     return (
         <>

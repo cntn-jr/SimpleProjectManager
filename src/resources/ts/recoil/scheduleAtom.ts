@@ -1,8 +1,8 @@
 import { Task } from "gantt-task-react";
 import { atom } from "recoil";
 
-export const editScheduleAtom = atom({
-    key: "editScheduleAtom",
+export const scheduleAtom = atom({
+    key: "ScheduleAtom",
     default: <Task>{
         start: new Date(2020, 1, 1),
         end: new Date(2020, 1, 2),
