@@ -1,6 +1,5 @@
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
-import { Task } from "gantt-task-react";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { isChangedAtom } from "../recoil/isChangedAtom";
@@ -11,10 +10,9 @@ type promiseType = (data: Array<any>) => void;
 
 export const useSchedule = () => {
     const [schedules, setSchedules] = useState<Array<Schedule>>([]);
-    const [schedulesLoading, setSchedulesLoading] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [isChanged, setIsChanged] = useRecoilState(isChangedAtom);
-    const [editSchedule, setEditSchedule] = useRecoilState(scheduleAtom);
+    const [schedule, setSchedule] = useRecoilState(scheduleAtom);
     const toast = useToast();
     const getSchedules = () => {
         return new Promise((resolve: promiseType, reject: promiseType) => {
@@ -29,24 +27,29 @@ export const useSchedule = () => {
         });
     };
 
-    const updateSchedule = () => {
+    const storeSchedule = () => {
+        // ロード開始
         setLoading(true);
+        // 開始日と終了日をDate→String
         const castedSchedule = {
-            ...editSchedule,
-            start: editSchedule.start.toISOString().split("T")[0],
-            end: editSchedule.end.toISOString().split("T")[0],
+            ...schedule,
+            start: schedule.start.toISOString().split("T")[0],
+            end: schedule.end.toISOString().split("T")[0],
         };
+        // axios通信
         axios
-            .put("/api/schedule/update", castedSchedule)
+            .post("/api/schedule/store", castedSchedule)
             .then(() => {
+                // 作成成功
                 toast({
-                    title: "Schedule updated.",
+                    title: "Schedule created.",
                     status: "success",
                     duration: 5000,
                     isClosable: true,
                     position: "top-right",
                 });
-                setEditSchedule({
+                // 初期化
+                setSchedule({
                     start: new Date(2020, 1, 1),
                     end: new Date(2020, 1, 2),
                     name: "Idea",
@@ -56,6 +59,55 @@ export const useSchedule = () => {
                 });
             })
             .catch((err) => {
+                // 作成失敗
+                toast({
+                    title: "You could not create task.",
+                    status: "error",
+                    isClosable: false,
+                    position: "top-right",
+                });
+            })
+            .finally(() => {
+                // スケジュールデータに変更あり
+                setIsChanged(!isChanged);
+                // ロード終了
+                setLoading(false);
+            });
+    };
+
+    const updateSchedule = () => {
+        // ロード開始
+        setLoading(true);
+        // 開始日と終了日をDate→String
+        const castedSchedule = {
+            ...schedule,
+            start: schedule.start.toISOString().split("T")[0],
+            end: schedule.end.toISOString().split("T")[0],
+        };
+        // axios通信
+        axios
+            .put("/api/schedule/update", castedSchedule)
+            .then(() => {
+                // 更新成功
+                toast({
+                    title: "Schedule updated.",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top-right",
+                });
+                // 初期化
+                setSchedule({
+                    start: new Date(2020, 1, 1),
+                    end: new Date(2020, 1, 2),
+                    name: "Idea",
+                    id: "Task 0",
+                    type: "task",
+                    progress: 100,
+                });
+            })
+            .catch((err) => {
+                // 更新失敗
                 toast({
                     title: "You could not update task.",
                     status: "error",
@@ -64,9 +116,11 @@ export const useSchedule = () => {
                 });
             })
             .finally(() => {
+                // スケジュールデータに変更あり
                 setIsChanged(!isChanged);
+                // ロード終了
                 setLoading(false);
             });
     };
-    return { schedules, getSchedules, updateSchedule, loading };
+    return { schedules, getSchedules, storeSchedule, updateSchedule, loading };
 };

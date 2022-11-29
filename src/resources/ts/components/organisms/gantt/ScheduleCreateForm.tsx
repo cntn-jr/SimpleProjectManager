@@ -19,7 +19,7 @@ type Props = {
 
 export const ScheduleCreateForm = (props: Props) => {
     const { onClose } = props;
-    const { loading } = useSchedule();
+    const { storeSchedule, loading } = useSchedule();
     const [editSchedule, setEditSchedule] = useRecoilState(scheduleAtom);
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setEditSchedule({ ...editSchedule, name: e.target.value });
@@ -31,6 +31,7 @@ export const ScheduleCreateForm = (props: Props) => {
         setEditSchedule({ ...editSchedule, end: new Date(e.target.value) });
     };
     const onClickStore = () => {
+        storeSchedule();
     };
     return (
         <>
@@ -38,7 +39,12 @@ export const ScheduleCreateForm = (props: Props) => {
                 Schedule Add
             </ModalHeader>
             <ModalBody justifyContent="space-around" h="120px">
-                <Stack direction="row" h="40px" my="20px" justifyContent="space-around">
+                <Stack
+                    direction="row"
+                    h="40px"
+                    my="20px"
+                    justifyContent="space-around"
+                >
                     <Input
                         placeholder="title"
                         isDisabled={loading}
