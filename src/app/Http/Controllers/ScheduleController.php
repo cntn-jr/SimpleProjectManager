@@ -71,4 +71,15 @@ class ScheduleController extends Controller
             return response()->json([], 401);
         };
     }
+
+    public function delete(Request $request)
+    {
+        $schedule_id = $request->id;
+        try {
+            $schedule = Schedule::find($schedule_id);
+            $schedule->delete();
+        } catch (Exception $err) {
+            return response()->json($err, 401);
+        }
+    }
 }

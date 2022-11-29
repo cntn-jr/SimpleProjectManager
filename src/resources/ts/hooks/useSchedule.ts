@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { isChangedAtom } from "../recoil/isChangedAtom";
+import { loadingAtom } from "../recoil/loadingAtom";
 import { scheduleAtom } from "../recoil/scheduleAtom";
 import { Schedule } from "../types/schedule";
 
@@ -13,6 +14,8 @@ export const useSchedule = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [isChanged, setIsChanged] = useRecoilState(isChangedAtom);
     const [schedule, setSchedule] = useRecoilState(scheduleAtom);
+    const [loadingDeleteButton, setLoadingDeleteButton] =
+        useRecoilState(loadingAtom);
     const toast = useToast();
     const getSchedules = () => {
         return new Promise((resolve: promiseType, reject: promiseType) => {
@@ -122,5 +125,56 @@ export const useSchedule = () => {
                 setLoading(false);
             });
     };
-    return { schedules, getSchedules, storeSchedule, updateSchedule, loading };
+
+    const deleteSchedule = () => {
+        // ロード開始
+        setLoading(true);
+        setLoadingDeleteButton(true);
+        // axios通信
+        axios
+            .put("/api/schedule/delete", schedule)
+            .then(() => {
+                // 更新成功
+                toast({
+                    title: "Schedule deleted.",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top-right",
+                });
+                // 初期化
+                setSchedule({
+                    start: new Date(2020, 1, 1),
+                    end: new Date(2020, 1, 2),
+                    name: "Idea",
+                    id: "Task 0",
+                    type: "task",
+                    progress: 100,
+                });
+            })
+            .catch((err) => {
+                // 更新失敗
+                toast({
+                    title: "You could not delete task.",
+                    status: "error",
+                    isClosable: false,
+                    position: "top-right",
+                });
+            })
+            .finally(() => {
+                // スケジュールデータに変更あり
+                setIsChanged(!isChanged);
+                // ロード終了
+                setLoading(false);
+                setLoadingDeleteButton(false);
+            });
+    };
+    return {
+        schedules,
+        getSchedules,
+        storeSchedule,
+        updateSchedule,
+        deleteSchedule,
+        loading,
+    };
 };
