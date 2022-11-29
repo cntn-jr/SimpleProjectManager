@@ -43,6 +43,7 @@ export const ScheduleEditForm = (props: Props) => {
             <ModalBody justifyContent="space-around" h="120px">
                 <Stack direction="row" h="40px" my="20px" justifyContent="space-around">
                     <Input
+                        isDisabled={loading}
                         defaultValue={schedule.name}
                         onChange={onChangeTitle}
                     />
@@ -50,6 +51,7 @@ export const ScheduleEditForm = (props: Props) => {
                 <Stack direction="row" h="40px" justifyContent="space-around">
                     <Input
                         type="date"
+                        isDisabled={loading}
                         defaultValue={
                             schedule.start.toISOString().split("T")[0]
                         }
@@ -57,6 +59,7 @@ export const ScheduleEditForm = (props: Props) => {
                     />
                     <Input
                         type="date"
+                        isDisabled={loading}
                         defaultValue={schedule.end.toISOString().split("T")[0]}
                         onChange={onChangeEnd}
                     />
