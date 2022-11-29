@@ -14,10 +14,11 @@ import { ScheduleModal } from "./ScheduleModal";
 
 type Props = {
     schedules: Array<any>;
+    displayDate: Date;
 };
 
 export const Chart = (props: Props) => {
-    const { schedules } = props;
+    const { schedules, displayDate } = props;
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [editSchedule, setEditSchedule] = useRecoilState(scheduleAtom);
 
@@ -43,6 +44,7 @@ export const Chart = (props: Props) => {
                 tasks={schedules}
                 listCellWidth=""
                 ganttHeight={500}
+                viewDate={displayDate}
                 todayColor="rgba(2, 62, 138, 0.5)"
                 onClick={onClick}
             />

@@ -19,8 +19,14 @@ export const Gantt = memo(() => {
         },
     ]);
     const [isChanged] = useRecoilState(isChangedAtom);
+    const [displayDate ,setDisplayDate] = useState<Date>(new Date());
     useEffect(() => {
         setLoading(true);
+        setDisplayDate( () => {
+            const date = new Date();
+            date.setDate(date.getDate() + -4);
+            return date;
+        } );
         getSchedules().then((schedules) => {
             let newSchedules: any[] = [];
             schedules.forEach((schedule) => {
@@ -42,7 +48,7 @@ export const Gantt = memo(() => {
                     <Spinner />
                 </Center>
             ) : (
-                <Chart schedules={schedules} />
+                <Chart schedules={schedules} displayDate={displayDate} />
             )}
         </>
     );
