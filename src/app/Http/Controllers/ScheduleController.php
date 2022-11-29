@@ -16,12 +16,41 @@ class ScheduleController extends Controller
         return response()->json($schedules);
     }
 
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:63',],
+            'start' => ['required', 'date',],
+            'end' => ['required', 'date', 'after_or_equal:start',]
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->toArray();
+            $response['errors'] = ['name' => [], 'start_date' => [], 'end_date' => [],];
+            foreach ($errors as $error_key => $error) {
+                $response['errors'][$error_key] = $error;
+            };
+            return response()->json($request, 401);
+        }
+        try {
+            $schedule = new Schedule();
+            $schedule->title = $request->name;
+            $schedule->start_date = $request->start;
+            $schedule->end_date = $request->end;
+            $schedule->type = 'task';
+            $schedule->progress = 100;
+            $schedule->save();
+        } catch (Exception $err) {
+            return response()->json([], 401);
+        };
+    }
+
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:63'],
+            'name' => ['required', 'string', 'max:63',],
             'start' => ['required', 'date',],
-            'end' => ['required', 'date',]
+            'end' => ['required', 'date', 'after_or_equal:start',]
         ]);
 
         if ($validator->fails()) {
