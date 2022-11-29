@@ -1,5 +1,6 @@
 import { Modal, ModalContent, ModalOverlay } from "@chakra-ui/react";
 import { Task } from "gantt-task-react";
+import { ScheduleCreateForm } from "./ScheduleCreateForm";
 import { ScheduleEditForm } from "./ScheduleEditForm";
 
 type Props = {
@@ -27,7 +28,7 @@ export const ScheduleModal = (props: Props) => {
                             onClose={onClose}
                         />
                     ) : (
-                        <></>
+                        <ScheduleCreateForm onClose={onClose} />
                     )}
                 </ModalContent>
             </Modal>
