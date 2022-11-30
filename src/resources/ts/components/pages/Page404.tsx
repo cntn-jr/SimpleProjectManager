@@ -22,7 +22,7 @@ export const Page404 = (props: Props) => {
                 </Text>
                 <Text fontSize="30px">we couldn't find that page.</Text>
                 <Box w="300px" h="250px">
-                    <Image src="https://source.unsplash.com/H0GXgpGXysc" />
+                    <Image src="storage/page404cat.jpg" />
                 </Box>
                 {isToHome ? (
                     <Button
