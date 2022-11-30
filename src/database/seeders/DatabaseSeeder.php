@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             TaskSeeder::class,
             ScheduleSeeder::class,
+            PrivateChatRoomSeeder::class,
         ]);
     }
 }
