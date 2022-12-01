@@ -1,5 +1,10 @@
 import { memo } from "react";
+import { ChatRoom } from "../organisms/chat/ChatRoom";
 
 export const Chat = memo(() => {
-    return <h1>chat</h1>;
+    return (
+        <>
+            <ChatRoom />
+        </>
+    );
 });
