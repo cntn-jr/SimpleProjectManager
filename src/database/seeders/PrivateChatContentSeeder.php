@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\PrivateChatContent;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class PrivateChatContentSeeder extends Seeder
 {
@@ -13,6 +15,6 @@ class PrivateChatContentSeeder extends Seeder
      */
     public function run()
     {
-        //
+        PrivateChatContent::factory()->count(30)->create();
     }
 }
