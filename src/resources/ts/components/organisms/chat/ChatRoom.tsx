@@ -1,7 +1,14 @@
 import { Stack } from "@chakra-ui/react";
+import { Room } from "../../../types/room";
 import { RoomBar } from "../../atomic/chat/RoomBar";
 
-export const ChatRoom = () => {
+type Props = {
+    rooms: Array<Room>;
+};
+
+export const ChatRoom = (props: Props) => {
+    const { rooms } = props;
+    console.log(rooms);
     return (
         <Stack
             bgColor="main.2.50"
@@ -10,12 +17,15 @@ export const ChatRoom = () => {
             overflowY="scroll"
             mt="50px"
         >
-            <RoomBar
-                userName="西田 雅哉"
-                content={(Math.random() * 100).toString()}
-                isRead={true}
-                roomId={0}
-            />
+            {rooms.map((room) => (
+                <RoomBar
+                    key={room.room_id}
+                    userName={`${room.first_name} ${room.last_name}`}
+                    content={(Math.random() * 100).toString()}
+                    isRead={true}
+                    roomId={room.room_id}
+                />
+            ))}
             <RoomBar
                 userName="西田 ゆいと"
                 content={(Math.random() * 100).toString()}
