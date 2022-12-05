@@ -20,7 +20,7 @@ export const ChatRoom = (props: Props) => {
             {rooms.map((room) => (
                 <RoomBar
                     key={room.room_id}
-                    userName={`${room.first_name} ${room.last_name}`}
+                    userName={`${room.last_name} ${room.first_name}`}
                     content={(Math.random() * 100).toString()}
                     isRead={true}
                     roomId={room.room_id}
