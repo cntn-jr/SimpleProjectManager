@@ -14,25 +14,15 @@ class PrivateChatRoomSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('private_chat_rooms')->insert([
-            'id' => 1,
-            'user1_id' => 1,
-            'user2_id' => 2,
-        ]);
-        DB::table('private_chat_rooms')->insert([
-            'id' => 2,
-            'user1_id' => 1,
-            'user2_id' => 3,
-        ]);
-        DB::table('private_chat_rooms')->insert([
-            'id' => 3,
-            'user1_id' => 1,
-            'user2_id' => 4,
-        ]);
-        DB::table('private_chat_rooms')->insert([
-            'id' => 4,
-            'user1_id' => 1,
-            'user2_id' => 5,
-        ]);
+        $id = 1;
+        for($user1_id = 1; $user1_id < 12; $user1_id++){
+            for($user2_id = ($user1_id + 1); $user2_id < 12; $user2_id++){
+                DB::table('private_chat_rooms')->insert([
+                    'id' => $id++,
+                    'user1_id' => $user1_id,
+                    'user2_id' => $user2_id,
+                ]);
+            }
+        }
     }
 }
