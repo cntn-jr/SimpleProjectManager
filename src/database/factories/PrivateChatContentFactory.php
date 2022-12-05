@@ -17,9 +17,13 @@ class PrivateChatContentFactory extends Factory
      */
     public function definition()
     {
+        $content_num = $this->faker->numberBetween(10, 20);
+        $created_at = $this->faker->dateTimeBetween("-6month", "+6month");
         return [
-            'room_id' => $this->faker->numberBetween(1, 4),
-            'content' => $this->faker->text(63),
+            'room_id' => $this->faker->numberBetween(1, 55),
+            'content' => $this->faker->realText($content_num),
+            'created_at' => $created_at,
+            'updated_at' => $created_at,
         ];
     }
 }
