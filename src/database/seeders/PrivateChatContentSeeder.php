@@ -15,6 +15,6 @@ class PrivateChatContentSeeder extends Seeder
      */
     public function run()
     {
-        PrivateChatContent::factory()->count(30)->create();
+        PrivateChatContent::factory()->count(500)->create();
     }
 }
