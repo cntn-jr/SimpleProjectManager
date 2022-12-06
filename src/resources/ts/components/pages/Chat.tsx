@@ -1,6 +1,6 @@
 import { Center, Spinner } from "@chakra-ui/react";
 import { memo, useEffect } from "react";
-import { usePrivateChatRoom } from "../../hooks/usePrivateCharRoom";
+import { usePrivateChatRoom } from "../../hooks/usePrivateChatRoom";
 import { ChatRoom } from "../organisms/chat/ChatRoom";
 
 export const Chat = memo(() => {

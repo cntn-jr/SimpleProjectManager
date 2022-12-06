@@ -12,47 +12,42 @@ export const ChatRoom = (props: Props) => {
     return (
         <Stack
             bgColor="main.2.50"
-            w={{ sm: "100px", md: "200px", lg: "250px" }}
+            w={{ sm: "80px", md: "180px", lg: "220px" }}
             h="600px"
             overflowY="scroll"
             mt="50px"
+            spacing={0}
         >
             {rooms.map((room) => (
                 <RoomBar
                     key={room.room_id}
                     userName={`${room.last_name} ${room.first_name}`}
-                    content={(Math.random() * 100).toString()}
                     isRead={true}
                     roomId={room.room_id}
                 />
             ))}
             <RoomBar
                 userName="西田 ゆいと"
-                content={(Math.random() * 100).toString()}
                 isRead={true}
                 roomId={0}
             />
             <RoomBar
                 userName="西田 しょうご"
-                content={(Math.random() * 100).toString()}
                 isRead={false}
                 roomId={0}
             />
             <RoomBar
                 userName="西田 ゆうき"
-                content={(Math.random() * 100).toString()}
                 isRead={true}
                 roomId={0}
             />
             <RoomBar
                 userName="西田 ままま"
-                content={(Math.random() * 100).toString()}
                 isRead={true}
                 roomId={0}
             />
             <RoomBar
                 userName="西田 ちびちゃん"
-                content={(Math.random() * 100).toString()}
                 isRead={false}
                 roomId={0}
             />
