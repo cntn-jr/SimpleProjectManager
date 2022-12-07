@@ -8,7 +8,6 @@ export const Chat = memo(() => {
     const { getRooms, rooms, getContents, loading } = usePrivateChatRoom();
     useEffect(() => {
         getRooms();
-        getContents(1);
     }, []);
     return (
         <>

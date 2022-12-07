@@ -21,6 +21,7 @@ class CreatePrivateChatRoomsTable extends Migration
             $table->foreign('user2_id')->references('id')->on('users');
             // $table->foreignId('project_id');
             // $table->foreign('project_id')->references('id')->on('projects');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
