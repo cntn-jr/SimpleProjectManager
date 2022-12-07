@@ -8,7 +8,6 @@ type Props = {
 
 export const ChatRoom = (props: Props) => {
     const { rooms } = props;
-    console.log(rooms);
     return (
         <Stack
             bgColor="main.2.50"

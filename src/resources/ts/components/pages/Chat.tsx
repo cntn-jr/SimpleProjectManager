@@ -5,9 +5,10 @@ import { ChatContentContainer } from "../organisms/chat/ChatContentContainer";
 import { ChatRoom } from "../organisms/chat/ChatRoom";
 
 export const Chat = memo(() => {
-    const { getRooms, rooms, loading } = usePrivateChatRoom();
+    const { getRooms, rooms, getContents, loading } = usePrivateChatRoom();
     useEffect(() => {
         getRooms();
+        getContents(1);
     }, []);
     return (
         <>
