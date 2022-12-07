@@ -1,6 +1,12 @@
 import { HStack, Text, VStack } from "@chakra-ui/react";
 
-export const ChatContent = () => {
+type Props = {
+    userName: string;
+    sendDate: string;
+    content: string;
+};
+export const ChatContent = (props: Props) => {
+    const { userName, sendDate, content } = props;
     return (
         <VStack borderTop="1px solid" borderColor="main.1" spacing={0} py="5px">
             <HStack
@@ -11,16 +17,16 @@ export const ChatContent = () => {
                 mb="10px"
             >
                 <Text fontSize="sm" as="b">
-                    西田 雅哉
+                    {userName}
                 </Text>
-                <Text fontSize="sm">11/11 10:50</Text>
+                <Text fontSize="sm">{sendDate}</Text>
             </HStack>
             <Text
                 fontSize="md"
                 w={{ sm: "250px", md: "430px", lg: "580px" }}
                 px="20px"
             >
-                まままのま
+                {content}
             </Text>
         </VStack>
     );

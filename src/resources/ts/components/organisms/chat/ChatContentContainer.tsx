@@ -1,8 +1,11 @@
 import { Stack, VStack } from "@chakra-ui/react";
+import { useRecoilState } from "recoil";
+import { chatContentsAtom } from "../../../recoil/chatContentsAtom";
 import { ChatContent } from "../../molecules/ChatContent";
 import { EnterMessage } from "../../molecules/EnterMessage";
 
 export const ChatContentContainer = () => {
+    const [contents, setContents] = useRecoilState(chatContentsAtom);
     return (
         <VStack
             bgColor="main.2.100"
@@ -16,20 +19,14 @@ export const ChatContentContainer = () => {
                 flexDirection="column-reverse"
                 overflowY="scroll"
             >
-                <ChatContent />
-                <ChatContent />
-                <ChatContent />
-                <ChatContent />
-                <ChatContent />
-                <ChatContent />
-                <ChatContent />
-                <ChatContent />
-                <ChatContent />
-                <ChatContent />
-                <ChatContent />
-                <ChatContent />
-                <ChatContent />
-                <ChatContent />
+                {contents.map((content) => (
+                    <ChatContent
+                        key={content.content_id}
+                        userName={`${content.last_name} ${content.first_name}`}
+                        sendDate={content.content_created_at}
+                        content={content.content}
+                    />
+                ))}
             </VStack>
             <Stack
                 h="100px"

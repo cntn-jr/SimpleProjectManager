@@ -1,5 +1,6 @@
 import { Box, Stack, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { usePrivateChatRoom } from "../../../hooks/usePrivateChatRoom";
 
 type Props = {
     userName: string;
@@ -10,9 +11,11 @@ type Props = {
 export const RoomBar = (props: Props) => {
     const { userName, roomId, isRead } = props;
     const [isOpenRoom, setIsOpenRoom] = useState(isRead);
+    const {getContents} = usePrivateChatRoom();
     const onClick = () => {
         // isReadをtrueに書き換える処理
         setIsOpenRoom(true);
+        getContents(roomId);
     };
     return (
         <Box

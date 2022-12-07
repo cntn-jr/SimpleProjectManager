@@ -1,6 +1,8 @@
 export type chatContent = {
-    id: number;
+    content_id: number;
     room_id: number;
     content: string;
-    created_at: string;
+    first_name: string;
+    last_name: string;
+    content_created_at: string;
 };
