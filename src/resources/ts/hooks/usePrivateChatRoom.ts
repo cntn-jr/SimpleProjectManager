@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { chatContentsAtom } from "../recoil/chatContentsAtom";
+import { chatMessageAtom } from "../recoil/chatMessage";
 import { loadingChatContainerAtom } from "../recoil/loadingChatContainerAtom";
 import { openRoomIdAtom } from "../recoil/openRoomIdAtom";
 import { chatContent } from "../types/chatContent";
@@ -17,6 +18,7 @@ export const usePrivateChatRoom = () => {
     const [loadingContainer, setLoadingContainer] = useRecoilState(
         loadingChatContainerAtom
     );
+    const [message, setMessage] = useRecoilState(chatMessageAtom);
     const getRooms = () => {
         setLoading(true);
         axios
@@ -25,6 +27,9 @@ export const usePrivateChatRoom = () => {
                 setRooms([...res.data]);
                 getContents(res.data[0].room_id);
                 setOpenRoomId(res.data[0].room_id);
+                setMessage((oldMessage) => {
+                    return { ...oldMessage, room_id: res.data[0].room_id };
+                });
             })
             .finally(() => {
                 setLoading(false);
@@ -41,10 +46,24 @@ export const usePrivateChatRoom = () => {
                 setLoadingContainer(false);
             });
     };
+
+    const storeContent = () => {
+        setLoadingContainer(true);
+        axios.post("api/room/content/store", message).then((res) => {
+            setMessage((oldMessage) => {
+                return { ...oldMessage, content: "" };
+            });
+            getContents(openRoomId);
+        }).catch( () => {
+            setLoadingContainer(false);
+        } );
+    };
+
     return {
         getRooms,
         rooms,
         getContents,
+        storeContent,
         contents,
         loading,
     };

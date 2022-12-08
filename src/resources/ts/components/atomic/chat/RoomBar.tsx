@@ -2,6 +2,7 @@ import { Box, Stack, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { usePrivateChatRoom } from "../../../hooks/usePrivateChatRoom";
+import { chatMessageAtom } from "../../../recoil/chatMessage";
 import { loadingChatContainerAtom } from "../../../recoil/loadingChatContainerAtom";
 import { openRoomIdAtom } from "../../../recoil/openRoomIdAtom";
 
@@ -18,6 +19,7 @@ export const RoomBar = (props: Props) => {
     const [loadingContainer, setLoadingContainer] = useRecoilState(
         loadingChatContainerAtom
     );
+    const [message, setMessage] = useRecoilState(chatMessageAtom);
     const { getContents } = usePrivateChatRoom();
     const onClick = () => {
         setLoadingContainer(true);
@@ -25,6 +27,9 @@ export const RoomBar = (props: Props) => {
         setIsOpenRoom(true);
         getContents(roomId);
         setOpenRoomId(roomId);
+        setMessage((oldMessage) => {
+            return { ...oldMessage, room_id: roomId };
+        });
     };
     return (
         <Box
