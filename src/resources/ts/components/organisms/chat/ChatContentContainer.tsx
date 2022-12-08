@@ -2,8 +2,8 @@ import { Center, Spinner, Stack, VStack } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { chatContentsAtom } from "../../../recoil/chatContentsAtom";
 import { loadingChatContainerAtom } from "../../../recoil/loadingChatContainerAtom";
-import { ChatContent } from "../../molecules/ChatContent";
-import { EnterMessage } from "../../molecules/EnterMessage";
+import { ChatContent } from "../../molecules/chat/ChatContent";
+import { EnterMessage } from "../../molecules/chat/EnterMessage";
 
 export const ChatContentContainer = () => {
     const [contents, setContents] = useRecoilState(chatContentsAtom);

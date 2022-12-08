@@ -13,9 +13,9 @@ class PrivateChatRoom extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'user1_id',
-        'user2_id',
-        // 'project_id',
+        'room_id',
+        'user_id',
+        'content_id',
     ];
 
     public function getRooms($user_id)
