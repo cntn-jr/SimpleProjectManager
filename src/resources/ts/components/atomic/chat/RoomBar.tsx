@@ -1,6 +1,9 @@
 import { Box, Stack, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useRecoilState } from "recoil";
 import { usePrivateChatRoom } from "../../../hooks/usePrivateChatRoom";
+import { loadingChatContainerAtom } from "../../../recoil/loadingChatContainerAtom";
+import { openRoomIdAtom } from "../../../recoil/openRoomIdAtom";
 
 type Props = {
     userName: string;
@@ -11,11 +14,17 @@ type Props = {
 export const RoomBar = (props: Props) => {
     const { userName, roomId, isRead } = props;
     const [isOpenRoom, setIsOpenRoom] = useState(isRead);
-    const {getContents} = usePrivateChatRoom();
+    const [openRoomId, setOpenRoomId] = useRecoilState(openRoomIdAtom);
+    const [loadingContainer, setLoadingContainer] = useRecoilState(
+        loadingChatContainerAtom
+    );
+    const { getContents } = usePrivateChatRoom();
     const onClick = () => {
+        setLoadingContainer(true);
         // isReadをtrueに書き換える処理
         setIsOpenRoom(true);
         getContents(roomId);
+        setOpenRoomId(roomId);
     };
     return (
         <Box
@@ -25,6 +34,7 @@ export const RoomBar = (props: Props) => {
             color={isOpenRoom ? "font.70" : "font.100"}
             cursor="pointer"
             onClick={onClick}
+            bgColor={openRoomId == roomId ? "sub.1" : "main.2.50"}
         >
             <Stack m={0} h="50px" display="flex" justifyContent="center">
                 <Text
