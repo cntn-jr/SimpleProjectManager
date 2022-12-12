@@ -11,10 +11,16 @@ class Task extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use SerializeDate;
 
     protected $fillable = ['title', 'description', 'priority', 'due', 'user_id', 'is_finished'];
 
     protected $table = 'task';
+
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',    // ←日付の形式を指定
+        'updated_at' => 'datetime:Y-m-d H:i:s',    // ←日付の形式を指定
+    ];
 
     function getWarningTask($user_id)
     {
