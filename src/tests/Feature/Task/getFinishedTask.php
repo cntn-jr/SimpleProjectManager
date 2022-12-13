@@ -11,6 +11,14 @@ use Tests\TestCase;
 
 class getFinishedTask extends TestCase
 {
+
+    // テスト終了後にマイグレーションを実行する
+    public function tearDown(): void
+    {
+        parent::setUp();
+        $this->artisan('migrate:refresh --seed');
+    }
+
     /**
      * @test
      */
