@@ -20,7 +20,7 @@ class createTask extends TestCase
     /**
      * @test
      */
-    public function createTaskByLoginUser()
+    public function createTask()
     {
         // ユーザの作成
         $user = User::factory()->create();
@@ -66,6 +66,98 @@ class createTask extends TestCase
             'priority' => "low",
             'description' => null,
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function createTaskMaxCharacter()
+    {
+        // ユーザの作成
+        $user = User::factory()->create();
+        $user = User::find($user->id);
+        // タスク作成APIの実行（titleの文字数が最大の場合）
+        $response = $this->actingAs($user)->json("POST", "api/task/store", [
+            'title' => str_repeat("a", 63),
+            'due' => "2022-03-06",
+            'priority' => "high",
+            'description' => "description1",
+        ]);
+        $response->assertStatus(200);
+        // タスク作成APIの実行（titleの文字数が最大を超える場合）
+        $response = $this->actingAs($user)->json("POST", "api/task/store", [
+            'title' => str_repeat("a", 64),
+            'due' => "2022-03-06",
+            'priority' => "high",
+            'description' => "description1",
+        ]);
+        $response->assertStatus(401);
+        // タスク作成APIの実行（descriptionの文字数が最大の場合）
+        $response = $this->actingAs($user)->json("POST", "api/task/store", [
+            'title' => "title",
+            'due' => "2022-03-06",
+            'priority' => "high",
+            'description' => str_repeat("a", 519),
+        ]);
+        $response->assertStatus(200);
+        // タスク作成APIの実行（descriptionの文字数が最大を超える場合）
+        $response = $this->actingAs($user)->json("POST", "api/task/store", [
+            'title' => "title",
+            'due' => "2022-03-06",
+            'priority' => "high",
+            'description' => str_repeat("a", 520),
+        ]);
+        $response->assertStatus(401);
+    }
+
+    /**
+     * @test
+     */
+    public function createTaskValidationFailed()
+    {
+        // ユーザの作成
+        $user = User::factory()->create();
+        $user = User::find($user->id);
+        // タスク作成APIの実行（titleがnullの場合）
+        $response = $this->actingAs($user)->json("POST", "api/task/store", [
+            'title' => "",
+            'due' => "2022-03-06",
+            'priority' => "high",
+            'description' => "description1",
+        ]);
+        $response->assertStatus(401);
+        // タスク作成APIの実行（dueがnullの場合）
+        $response = $this->actingAs($user)->json("POST", "api/task/store", [
+            'title' => "title",
+            'due' => "",
+            'priority' => "high",
+            'description' => "description1",
+        ]);
+        $response->assertStatus(401);
+        // タスク作成APIの実行（dueが正確な値でない場合）
+        $response = $this->actingAs($user)->json("POST", "api/task/store", [
+            'title' => "title",
+            'due' => "2022-02-31",
+            'priority' => "high",
+            'description' => "description1",
+        ]);
+        $response->assertStatus(401);
+        // タスク作成APIの実行（priorityがnullの場合）
+        $response = $this->actingAs($user)->json("POST", "api/task/store", [
+            'title' => "title",
+            'due' => "2022-03-06",
+            'priority' => "",
+            'description' => "description1",
+        ]);
+        $response->assertStatus(401);
+        // タスク作成APIの実行（priorityがhigh middle low以外の場合）
+        $response = $this->actingAs($user)->json("POST", "api/task/store", [
+            'title' => "title",
+            'due' => "2022-03-06",
+            'priority' => "zero",
+            'description' => "description1",
+        ]);
+        $response->assertStatus(401);
     }
 
     /**
