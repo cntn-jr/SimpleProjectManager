@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\PrivateChatContent;
 use App\Models\PrivateChatRoom;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\DB;
 
 class PrivateChatContentFactory extends Factory
 {
@@ -18,7 +19,8 @@ class PrivateChatContentFactory extends Factory
      */
     public function definition()
     {
-        $room_id = $this->faker->numberBetween(1, 55);
+        $last_room = DB::table('private_chat_rooms')->orderBy('id', "desc")->get();
+        $room_id = $this->faker->numberBetween(1, $last_room[0]->id);
         $private_chat_room = PrivateChatRoom::find($room_id);
         $user_id = "";
         // メッセージを送ったユーザをランダムで選択する
