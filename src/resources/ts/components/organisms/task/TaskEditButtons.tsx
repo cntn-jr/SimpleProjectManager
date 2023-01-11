@@ -14,7 +14,7 @@ export const TaskEditButtons = memo(() => {
         <>
             {tasks.length ? (
                 <>
-                    <Stack direction="row" mt="550px" postion="fixed">
+                    <Stack direction="row" mt="550px" position="fixed">
                         <PrimaryButton
                             leftIcon={iconManager.check}
                             size="sm"
