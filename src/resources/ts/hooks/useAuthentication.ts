@@ -17,17 +17,15 @@ export const useAuthentication = () => {
             axios
                 .post("/api/login", loginUser)
                 .then(() => {
-                    setTimeout(() => {
-                        toast({
-                            title: "Login succeeded.",
-                            status: "success",
-                            duration: 5000,
-                            isClosable: true,
-                            position: "top-right",
-                        });
-                        setLoading(false);
-                        history.replace("/home");
-                    }, 3 * 1000);
+                    toast({
+                        title: "Login succeeded.",
+                        status: "success",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "top-right",
+                    });
+                    setLoading(false);
+                    history.replace("/home");
                 })
                 .catch(() => {
                     setIsError(true);
@@ -47,17 +45,15 @@ export const useAuthentication = () => {
         axios
             .post("api/logout")
             .then(() => {
-                setTimeout(() => {
-                    toast({
-                        title: "Logout succeeded.",
-                        status: "success",
-                        duration: 5000,
-                        isClosable: true,
-                        position: "top-right",
-                    });
-                    setLoading(false);
-                    history.replace("/login");
-                }, 3 * 1000);
+                toast({
+                    title: "Logout succeeded.",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "top-right",
+                });
+                setLoading(false);
+                history.replace("/login");
             })
             .catch(() => {
                 setIsError(true);
