@@ -2,13 +2,15 @@ import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { isAuthAtom } from "../recoil/isAuthAtom";
 
 type promiseType = (data: boolean) => void;
 
 export const useAuthentication = () => {
     const [loading, setLoading] = useState(false);
     const [isError, setIsError] = useState<boolean>(false);
-    const [isAuth, setIsAuth] = useState<boolean>(false);
+    const [isAuth, setIsAuth] = useRecoilState(isAuthAtom);
     const history = useHistory();
     const toast = useToast();
     const login = (loginUser: { email: string; password: string }) => {
@@ -17,6 +19,7 @@ export const useAuthentication = () => {
             axios
                 .post("/api/login", loginUser)
                 .then(() => {
+                    setIsAuth(true);
                     toast({
                         title: "Login succeeded.",
                         status: "success",
@@ -45,6 +48,7 @@ export const useAuthentication = () => {
         axios
             .post("api/logout")
             .then(() => {
+                setIsAuth(false);
                 toast({
                     title: "Logout succeeded.",
                     status: "success",
@@ -67,18 +71,5 @@ export const useAuthentication = () => {
             });
     };
 
-    const getIsAuth = () => {
-        return new Promise((resolve: promiseType, reject: promiseType) => {
-            axios
-                .get<boolean>("api/isAuth")
-                .then((res) => {
-                    return resolve(res.data);
-                })
-                .catch(() => {
-                    return reject(false);
-                });
-        });
-    };
-
-    return { login, logout, isAuth, getIsAuth, loading, isError };
+    return { login, logout, loading, isError };
 };
