@@ -7,6 +7,7 @@ import { loadingChatContainerAtom } from "../recoil/loadingChatContainerAtom";
 import { openRoomIdAtom } from "../recoil/openRoomIdAtom";
 import { chatContent } from "../types/chatContent";
 import { Room } from "../types/room";
+import { ForceLogout } from "../util/ForceLogout";
 
 export const usePrivateChatRoom = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -19,6 +20,7 @@ export const usePrivateChatRoom = () => {
         loadingChatContainerAtom
     );
     const [message, setMessage] = useRecoilState(chatMessageAtom);
+    const { forceLogout } = ForceLogout();
     const getRooms = () => {
         setLoading(true);
         axios
@@ -31,6 +33,9 @@ export const usePrivateChatRoom = () => {
                     return { ...oldMessage, room_id: res.data[0].room_id };
                 });
             })
+            .catch((err) => {
+                forceLogout(err.response.status);
+            })
             .finally(() => {
                 setLoading(false);
             });
@@ -42,6 +47,9 @@ export const usePrivateChatRoom = () => {
             .then((res) => {
                 setContents([...res.data]);
             })
+            .catch((err) => {
+                forceLogout(err.response.status);
+            })
             .finally(() => {
                 setLoadingContainer(false);
             });
@@ -49,14 +57,18 @@ export const usePrivateChatRoom = () => {
 
     const storeContent = () => {
         setLoadingContainer(true);
-        axios.post("api/room/content/store", message).then((res) => {
-            setMessage((oldMessage) => {
-                return { ...oldMessage, content: "" };
+        axios
+            .post("api/room/content/store", message)
+            .then((res) => {
+                setMessage((oldMessage) => {
+                    return { ...oldMessage, content: "" };
+                });
+                getContents(openRoomId);
+            })
+            .catch((err) => {
+                forceLogout(err.response.status);
+                setLoadingContainer(false);
             });
-            getContents(openRoomId);
-        }).catch( () => {
-            setLoadingContainer(false);
-        } );
     };
 
     return {

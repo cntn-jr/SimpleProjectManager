@@ -7,6 +7,7 @@ import { isChangedAtom } from "../recoil/isChangedAtom";
 import { loadingAtom } from "../recoil/loadingAtom";
 import { taskAtom } from "../recoil/taskAtom";
 import { Task } from "../types/task";
+import { ForceLogout } from "../util/ForceLogout";
 
 export const useTasks = () => {
     const [orderTasks, setOrderTasks] = useState<Array<Task>>([]);
@@ -19,6 +20,8 @@ export const useTasks = () => {
     const [tasks, setTasks] = useRecoilState(tasksAtom);
 
     const toast = useToast();
+
+    const { forceLogout } = ForceLogout();
 
     const getTasks = useCallback((isFinishedTask: boolean) => {
         setFirstLoading(true);
@@ -33,6 +36,9 @@ export const useTasks = () => {
                         })
                     );
                 })
+                .catch((err) => {
+                    forceLogout(err.response.status);
+                })
                 .finally(() => {
                     setFirstLoading(false);
                 });
@@ -46,6 +52,9 @@ export const useTasks = () => {
                             return -1;
                         })
                     );
+                })
+                .catch((err) => {
+                    forceLogout(err.response.status);
                 })
                 .finally(() => {
                     setFirstLoading(false);
@@ -67,7 +76,9 @@ export const useTasks = () => {
                 });
                 onClose();
             })
-            .catch((err) => {})
+            .catch((err) => {
+                forceLogout(err.response.status);
+            })
             .finally(() => {
                 setLoading(false);
                 setIsChanged(!isChanged);
@@ -87,7 +98,9 @@ export const useTasks = () => {
                     position: "top-right",
                 });
             })
-            .catch((err) => {})
+            .catch((err) => {
+                forceLogout(err.response.status);
+            })
             .finally(() => {
                 setIsChanged(!isChanged);
                 setLoading(false);
@@ -108,7 +121,9 @@ export const useTasks = () => {
                     position: "top-right",
                 });
             })
-            .catch((err) => {})
+            .catch((err) => {
+                forceLogout(err.response.status);
+            })
             .finally(() => {
                 setTasks([]);
                 setLoading(false);
@@ -129,7 +144,9 @@ export const useTasks = () => {
                     position: "top-right",
                 });
             })
-            .catch((err) => {})
+            .catch((err) => {
+                forceLogout(err.response.status);
+            })
             .finally(() => {
                 setTasks([]);
                 setLoading(false);

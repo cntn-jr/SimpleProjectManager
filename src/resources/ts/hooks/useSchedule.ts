@@ -6,6 +6,7 @@ import { isChangedAtom } from "../recoil/isChangedAtom";
 import { loadingAtom } from "../recoil/loadingAtom";
 import { scheduleAtom } from "../recoil/scheduleAtom";
 import { Schedule } from "../types/schedule";
+import { ForceLogout } from "../util/ForceLogout";
 
 type promiseType = (data: Array<any>) => void;
 
@@ -16,6 +17,7 @@ export const useSchedule = () => {
     const [schedule, setSchedule] = useRecoilState(scheduleAtom);
     const [loadingDeleteButton, setLoadingDeleteButton] =
         useRecoilState(loadingAtom);
+    const { forceLogout } = ForceLogout();
     const toast = useToast();
     const getSchedules = () => {
         return new Promise((resolve: promiseType, reject: promiseType) => {
@@ -24,7 +26,8 @@ export const useSchedule = () => {
                 .then((res) => {
                     return resolve(res.data);
                 })
-                .catch(() => {
+                .catch((err) => {
+                    forceLogout(err.response.status);
                     return reject([]);
                 });
         });
@@ -69,6 +72,7 @@ export const useSchedule = () => {
                     isClosable: false,
                     position: "top-right",
                 });
+                forceLogout(err.response.status);
             })
             .finally(() => {
                 // スケジュールデータに変更あり
@@ -117,6 +121,7 @@ export const useSchedule = () => {
                     isClosable: false,
                     position: "top-right",
                 });
+                forceLogout(err.response.status);
             })
             .finally(() => {
                 // スケジュールデータに変更あり
@@ -160,6 +165,7 @@ export const useSchedule = () => {
                     isClosable: false,
                     position: "top-right",
                 });
+                forceLogout(err.response.status);
             })
             .finally(() => {
                 // スケジュールデータに変更あり
