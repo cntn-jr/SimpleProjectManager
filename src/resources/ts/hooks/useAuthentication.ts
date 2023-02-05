@@ -5,8 +5,6 @@ import { useHistory } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { isAuthAtom } from "../recoil/isAuthAtom";
 
-type promiseType = (data: boolean) => void;
-
 export const useAuthentication = () => {
     const [loading, setLoading] = useState(false);
     const [isError, setIsError] = useState<boolean>(false);
