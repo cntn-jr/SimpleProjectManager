@@ -24,16 +24,32 @@ class PrivateChatContentFactory extends Factory
         $private_chat_room = PrivateChatRoom::find($room_id);
         $user_id = "";
         // メッセージを送ったユーザをランダムで選択する
-        if($this->faker->boolean()){
+        if ($this->faker->boolean()) {
             $user_id = $private_chat_room->user1_id;
-        }else{
+        } else {
             $user_id = $private_chat_room->user2_id;
         }
         $content_num = $this->faker->numberBetween(10, 20);
-        $created_at = $this->faker->dateTimeBetween("-6month", "+6month");
+        $content_num = $this->faker->numberBetween(0, 12);
+        $created_at = $this->faker->dateTimeBetween("-6month", "-1day");
+        $chat_contents = [
+            "すみません。",
+            "先日はありがとうございました。",
+            "こちらのコードを見てもらってもいいですか？",
+            "ログイン機能を修正してください。",
+            "おはようございます。",
+            "開発の進捗は順調ですか？",
+            "タスク取得APIはもうすぐ完成しますか？",
+            "明後日までには終わらせてください。",
+            "ログアウト機能が完成しました！",
+            "Reactのバージョンは18を使用してください。",
+            "Recoilではなく、Reduxを使ってください。",
+            "今日飲みに行きますか？？",
+            "なにか聞きたいことがあったら何でも聞いてください。",
+        ];
         return [
             'room_id' => $room_id,
-            'content' => $this->faker->realText($content_num),
+            'content' => $chat_contents[$content_num],
             'user_id' => $user_id,
             'created_at' => $created_at,
             'updated_at' => $created_at,
