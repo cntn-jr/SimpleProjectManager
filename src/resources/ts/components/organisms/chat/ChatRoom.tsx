@@ -24,11 +24,6 @@ export const ChatRoom = (props: Props) => {
                     roomId={room.room_id}
                 />
             ))}
-            <RoomBar userName="西田 ゆいと" isRead={true} roomId={0} />
-            <RoomBar userName="西田 しょうご" isRead={false} roomId={0} />
-            <RoomBar userName="西田 ゆうき" isRead={true} roomId={0} />
-            <RoomBar userName="西田 ままま" isRead={true} roomId={0} />
-            <RoomBar userName="西田 ちびちゃん" isRead={false} roomId={0} />
         </Stack>
     );
 };
