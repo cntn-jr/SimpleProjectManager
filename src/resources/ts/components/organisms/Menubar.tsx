@@ -10,15 +10,15 @@ export const Menubar = memo(() => {
                 <Text
                     fontSize="lg"
                     as="b"
-                    color={{
-                        sm: "green",
-                        md: "blue",
-                        lg: "yellow",
-                        xl: "orange",
-                        '2xl': "red"
-                    }}
+                    // color={{
+                    //     sm: "green",
+                    //     md: "blue",
+                    //     lg: "yellow",
+                    //     xl: "orange",
+                    //     '2xl': "red"
+                    // }}
                 >
-                    Project Name
+                    A Project
                 </Text>
             </Box>
             {MenuList.map((menu) => (
