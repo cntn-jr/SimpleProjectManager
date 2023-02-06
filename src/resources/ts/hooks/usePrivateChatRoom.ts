@@ -42,6 +42,7 @@ export const usePrivateChatRoom = () => {
     };
 
     const getContents = (room_id: number) => {
+        setLoadingContainer(true);
         axios
             .get<Array<chatContent>>("/api/room/" + room_id + "/content")
             .then((res) => {
