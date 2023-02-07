@@ -70,7 +70,7 @@ export const TasksTable = memo((props: Props) => {
                             xl: "1000px",
                             "2xl": "1200px",
                         }}
-                        h={hBody}
+                        maxH={hBody}
                     >
                         <TaskTableBody
                             tasks={tasks}
